@@ -1,2 +1,2 @@
-# express-core
+# mean-core
 
