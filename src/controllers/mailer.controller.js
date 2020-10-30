@@ -66,7 +66,7 @@ mailer.forgotenPassword = async (req, res) => {
   try {
     const user = await User.findOne({email: req.body.email});
     const encrypted = await Buffer.from(JSON.stringify(user)).toString('base64');
-    const response = 'https://www.kaivos.com.mx/forgetPassword?encoded=' + encrypted;
+    const response = 'https://mean-core.herokuapp.com/forgetPassword?encoded=' + encrypted;
 
       const smtpTransport = nodemailer.createTransport({
         service: 'gmail',
@@ -123,7 +123,7 @@ mailer.forgotenPassword = async (req, res) => {
         </head>
         <body>
           <div class="container">
-              <img src="https://www.kaivos.com.mx/assets/icons/logo.svg" style="padding-left: 10%; padding-top: 10%">
+              <img src="https://mean-core.herokuapp.com/assets/icons/logo.svg" style="padding-left: 10%; padding-top: 10%">
             <h1 align="center">Recuperación de contraseña</h1>
             <p align="justify">Recibimos la solicitud de recuperación de tu contraseña, la cual puedes actualizar en el siguiente link:</p>
             <a href="${response}">${response}</a>
