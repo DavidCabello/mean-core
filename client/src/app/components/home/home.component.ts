@@ -30,15 +30,17 @@ export class HomeComponent implements OnInit {
   }
 
   login() {
-    this.userService.loginUser(this.login_info.user).subscribe((data: Login) => {
-      this.userService.setUser(data.user);
-      localStorage.setItem('token', data.token);
-      this.router.navigate(['/profile']);
+    this.userService.loginUser(this.login_info.user).subscribe((response: Login) => {
+      this.userService.setUser(response.user);
+      localStorage.setItem('token', response.token);
+      if(response.user.role === 'user'){
+        this.router.navigate(['/profile']);
+      }
     });
   }
 
   reset() {
-    this.mailerService.reset(this.userMail).subscribe(data => {
+    this.mailerService.reset(this.userMail).subscribe(response => {
       this.resetButton.nativeElement.click();
     });
   }

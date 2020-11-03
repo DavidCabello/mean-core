@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
-import { User } from '../../models/user';
+import { Login, User } from '../../models/user';
 
 @Component({
   selector: 'app-register',
@@ -9,18 +9,24 @@ import { User } from '../../models/user';
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit {
-  user = new User();
+  login_info = new Login();
   isError = false;
 
   constructor(public userService: UserService, private router: Router) { }
 
   ngOnInit() {
+    this.login_info.user = new User();
   }
 
   register() {
-    this.user.role = 'user';
-    this.userService.registerUser(this.user).subscribe(user => {
-        this.router.navigate(['/profile']);
+    //You can change user.role to be 'user' or 'admin'
+    this.login_info.user.role = 'user';
+    this.userService.registerUser(this.login_info.user).subscribe((response: Login) => {
+        this.userService.setUser(response.user);
+        localStorage.setItem('token', response.token);
+        if(response.user.role === 'user'){
+          this.router.navigate(['/profile']);
+        }
     });
   }
 

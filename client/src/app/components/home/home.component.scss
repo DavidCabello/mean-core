@@ -1,0 +1,26 @@
+@import "../../../assets/scss/base.scss";
+@import "../../../assets/scss/helpers.scss";
+@import "../../../assets/scss/components.scss";
+
+.home{
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: grey;
+
+    &__form{
+        position: relative;
+        background: white;
+        padding: 1rem 2rem;
+        border-radius: 10px;
+        input{
+            position: relative;
+            width: 100%;
+        }
+        button{
+            display: block;
+        }
+    }
+}

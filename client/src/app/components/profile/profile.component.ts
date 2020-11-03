@@ -22,23 +22,26 @@ export class ProfileComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.getUser();
-    this.getProducts();
+    this.getUser(() => {
+      this.getProducts();
+    });
   }
 
-  getUser(){
+  getUser(cb){
     this.userService.user.subscribe(response => {
       this.user = response;
+      return cb();
     });
   }
 
   getProducts(){
     this.productService.getUserProducts().subscribe((response: any) => {
-      this.products = response;
+      this.products = response;  
     }); 
   }
 
   createProduct(){
+    this.product.userID = this.user._id;
     this.productService.createProduct(this.product).subscribe(response => {
       location.reload();
     });
@@ -51,7 +54,7 @@ export class ProfileComponent implements OnInit {
   }
 
   deleteProduct(product){
-    this.productService.deleteProduct(product).subscribe(response => {
+    this.productService.deleteProduct(product._id).subscribe(response => {
       location.reload();
     });
   }
