@@ -10,12 +10,15 @@ import { RegisterComponent } from './components/register/register.component';
 import { ProfileComponent } from './components/profile/profile.component';
 
 //SNIPPETS
-import { NavbarComponent } from './components/navbar/navbar.component';
+import { HeaderComponent } from './components/header/header.component';
+import { MenuComponent } from './components/menu/menu.component';
 import { FooterComponent } from './components/footer/footer.component';
 
 //SERVICES
 import { UserService } from './services/user.service';
 import { ProductService } from './services/product.service';
+import { MailerService } from './services/mailer.service';
+import { FileService } from './services/file.service';
 import { AuthInterceptorService } from './services/auth-interceptor.service';
 
 @NgModule({
@@ -24,8 +27,9 @@ import { AuthInterceptorService } from './services/auth-interceptor.service';
     HomeComponent,
     RegisterComponent,
     ProfileComponent,
-    NavbarComponent,
-    FooterComponent
+    FooterComponent,
+    MenuComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
@@ -39,7 +43,9 @@ import { AuthInterceptorService } from './services/auth-interceptor.service';
       multi: true
     },
     UserService,
-    ProductService
+    ProductService,
+    MailerService,
+    FileService
   ],
   bootstrap: [AppComponent]
 })

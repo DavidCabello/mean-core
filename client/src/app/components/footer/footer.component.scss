@@ -1,0 +1,40 @@
+@import "../../../assets/scss/base.scss";
+@import "../../../assets/scss/helpers.scss";
+@import "../../../assets/scss/components.scss";
+
+.footer{
+	position: relative;
+	width: 100%;
+	height: 200px;
+	padding: 10px;
+	background-color: #F8F8F9;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+    z-index: 100;
+    @include media(small){
+     
+    }
+
+	&__logo{
+		position: relative;
+		width: 30%;
+
+	}
+
+	&__address{
+		position: relative;
+		width: 40%;
+		p{
+			margin: 0;
+		}
+
+	}
+
+	&__social{
+		position: relative;
+		width: 30%;
+		
+	}
+
+}

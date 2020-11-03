@@ -44,7 +44,6 @@ ProductCtrl.updateProduct = async (req, res) => {
     const { id } = req.params;
     const product = {
         name: req.body.name,
-        amount: req.body.amount,
         description: req.body.description
     };
     const updated = await Product.findOneAndUpdate({_id: id}, {$set: product}, {new: true});

@@ -43,7 +43,6 @@ mailer.send = async (req, res) => {
           <li>Apellido: ${req.body.lastname}</li>
           <li>Email: ${req.body.email}</li>
           <li>Teléfono: ${req.body.phone}</li>
-          <li>RFC: ${req.body.rfc}</li>
           </ul>
           <h3>Mensaje</h3>
           <p>${req.body.message}</p>
