@@ -7,13 +7,13 @@
         <input type="text" name="lastname" [(ngModel)]="user.lastname" placeholder="Apellido">
         <input type="number" name="phone" [(ngModel)]="user.phone" placeholder="Teléfono">
         <input type="email" name="email" [(ngModel)]="user.email" placeholder="Correo" required>
-        <button type="submit" class="main__button">Actualizar</button>
+        <button type="submit" class="primary">Actualizar</button>
     </form>
     <form class="profile__form" (ngSubmit)="updatePassword()" ngNativeValidate>
         <input type="password" name="password" [(ngModel)]="password" placeholder="Contraseña" required>
-        <button type="submit" class="main__button">Actualizar contraseña</button>
+        <button type="submit" class="primary">Actualizar contraseña</button>
     </form>
-    <button type="button" class="main__button" (click)="logout()">Cerrar sesión</button>
+    <button type="button" class="primary" (click)="logout()">Cerrar sesión</button>
 </main>
 
 <app-footer></app-footer>

@@ -1,18 +1,23 @@
 /* = Colors
 -----------------------------------------------------------------------------*/
-$color-primary:				#000000;
-$color-secondary: 			#005BFE;
+$color-primary:				#c9a43f;
+$color-primary-hover:		#977D34;
+$color-secondary: 			#2F2F2F;
 
-$color-text:				#010101;
-$color-text-light:			#414141;
-$color-text-black:			#000000;
+$color-text:				#2F2F2F;
+$color-text-light:			#F2F2F2;
+$color-text-black:			#131313;
 
 $color-accent:				#F8F8F9;
 $color-divider:				#E0E0E0;
 
-$color-select-bg:	 		#FFE400;
-$color-select-text:			#000000;
+$color-select-bg:	 		#BD9A3A;
+$color-select-text:			#131313;
 $color-placeholder:			#CCCCCC;
+
+
+$button-padding: 			0.75rem 2rem;
+$button-border-radius:		0px;
 
 /* = Size Breakpoints
 -----------------------------------------------------------------------------*/

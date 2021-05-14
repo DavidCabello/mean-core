@@ -21,6 +21,7 @@ import { MailerService } from './services/mailer.service';
 import { FileService } from './services/file.service';
 import { AuthInterceptorService } from './services/auth-interceptor.service';
 import { LoginComponent } from './pages/login/login.component';
+import { ModalComponent } from './snippets/modal/modal.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { LoginComponent } from './pages/login/login.component';
     MenuComponent,
     HeaderComponent,
     ProfileComponent,
-    LoginComponent
+    LoginComponent,
+    ModalComponent
   ],
   imports: [
     BrowserModule,

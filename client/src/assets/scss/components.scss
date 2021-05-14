@@ -1,115 +1,70 @@
-.remove{
+*:focus {
+    outline: none;
+}
+
+.remove {
 	margin: 0 !important;
 	padding: 0 !important;
 }
 
-.full{
-    @include media(small){
+.full {
+    @include media(small) {
         display: none;
     }
 }
 
-.resBlock{
+.resBlock {
     display: none;
-    @include media(small){
+    @include media(small) {
         display: block;
     }
 }
 
-.resFlex{
+.resFlex {
     display: none;
-    @include media(small){
+    @include media(small) {
         display: flex;
     }
 }
 
-.hide{
+.hide {
     display: none !important;
 }
 
-.show{
+.show {
     display: block !important;
 }
 
-.main__title{
-    position: relative;
-    color: $color-primary;;
-    span{
-		@include text-bold;
-    }
-}
-
-.main__text{
-    position: relative;
-    color: $color-primary;
-    span{
-        @include text-bold;
-    }
-}
-
-.main__button{
-    position: relative;
-    display: inline-block;
+button {
+    border-radius: $button-border-radius;
+    padding: $button-padding;
     background: transparent;
-    border: 2px solid $color-secondary;
-    padding: 4px 15px;
-    color: $color-secondary;
+    border: none;
     text-decoration: none !important;
     font-weight: bolder;
-    text-transform: uppercase;
     cursor: pointer;
-    &:hover{
+    &:hover {
         @include transition(.3s);
-        color: white;
-        background: $color-secondary;
+    }
+    &.primary {
+        background: $color-primary;
+        color: $color-text-light;
+        &:hover {
+            background: $color-primary-hover;
+        }
+    }
+    &.secondary {
+        color: $color-text;
+        &:hover {
+            background: $color-divider;
+        }
+    }
+    &.bordered {
+        border: 1px solid $color-primary;
+        color: $color-primary;
+        &:hover {
+            background: $color-primary;
+            color: $color-text-light;
+        }
     }
 }
-
-.main__button__select{
-    position: relative;
-    display: inline-block;
-    background: transparent;
-    border: 2px solid $color-secondary;
-    padding: 4px 25px 4px 15px;
-    color: $color-secondary;
-    text-decoration: none !important;
-    border-radius: 0;
-    appearance: none;
-    -webkit-appearance: none;
-    font-weight: bolder;
-    text-transform: uppercase;
-    cursor: pointer;
-    background-image:
-        linear-gradient(45deg, transparent 50%, $color-secondary 50%),
-        linear-gradient(135deg, $color-secondary 50%, transparent 50%);
-    background-position:
-        calc(100% - 10px) 1em,
-        calc(100% - 5px) 1em;
-    background-size:
-        5px 5px,
-        5px 5px;
-    background-repeat: no-repeat;
-    &:focus{
-        outline: none;
-    }
-}
-
-.alert{
-    width: 22.5rem;
-    margin: 1.5rem auto;
-    color: red;
-    ul, li{
-        list-style: disc;
-        margin-bottom: 0.5rem;
-    }
-    a{
-        text-decoration: underline;
-    }
-}
-
-.help{
-    display: block;
-    margin-top: 0.5rem;
-    font-size: 1rem;
-}
-
