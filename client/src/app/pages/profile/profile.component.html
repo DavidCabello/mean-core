@@ -1,0 +1,19 @@
+<app-header></app-header>
+
+<main class="profile">
+    <h3>Perfil</h3>
+    <form class="profile__form" (ngSubmit)="update()" ngNativeValidate>
+        <input type="text" name="name" [(ngModel)]="user.name" placeholder="Nombre" required>
+        <input type="text" name="lastname" [(ngModel)]="user.lastname" placeholder="Apellido">
+        <input type="number" name="phone" [(ngModel)]="user.phone" placeholder="Teléfono">
+        <input type="email" name="email" [(ngModel)]="user.email" placeholder="Correo" required>
+        <button type="submit" class="main__button">Actualizar</button>
+    </form>
+    <form class="profile__form" (ngSubmit)="updatePassword()" ngNativeValidate>
+        <input type="password" name="password" [(ngModel)]="password" placeholder="Contraseña" required>
+        <button type="submit" class="main__button">Actualizar contraseña</button>
+    </form>
+    <button type="button" class="main__button" (click)="logout()">Cerrar sesión</button>
+</main>
+
+<app-footer></app-footer>

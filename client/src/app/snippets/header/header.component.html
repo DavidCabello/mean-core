@@ -7,15 +7,16 @@
     </div>
 	
     <nav class="d-flex justify-content-around header__container">
-        <a style="cursor: pointer" (click)="logout()">Cerrar sesión</a>
+      <a routerLink="/login">Iniciar sesión</a>
+      <a routerLink="/profile">Perfil</a>
     </nav>
 
     <div class="header__menu">
-      <a (click)="open()" class="js-open-menu">
+      <a (click)="openMenu.nativeElement.click()">
         <img src='assets/icons/open.svg'>
       </a>
     </div>
 
 </header>
 
-<app-menu></app-menu>
+<app-menu (handler)="openMenu = $event"></app-menu>

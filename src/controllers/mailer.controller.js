@@ -123,11 +123,10 @@ mailer.forgotenPassword = async (req, res) => {
         <body>
           <div class="container">
               <img src="https://mean-core.herokuapp.com/assets/icons/logo.svg" style="padding-left: 10%; padding-top: 10%">
-            <h1 align="center">Recuperación de contraseña</h1>
-            <p align="justify">Recibimos la solicitud de recuperación de tu contraseña, la cual puedes actualizar en el siguiente link:</p>
-            <a href="${response}">${response}</a>
+            <h1 align="center">Contraseña olvidada</h1>
+            <p align="justify">Recibimos tu solicitud para recuperar tu contraseña, haz clic <a href="${response}">aquí</a> para restablecerla.</p>
     
-            <p align="justify">En caso de no haber solicitado el cambio por favor ignora este mensaje.</p>
+            <p align="justify">Si tú no solicitaste este cambio, haz caso omiso de este mensaje.</p>
           </div>
         </body>
         </html>

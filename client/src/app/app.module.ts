@@ -6,31 +6,32 @@ import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
 
 //PAGES
-import { HomeComponent } from './components/home/home.component';
-import { RegisterComponent } from './components/register/register.component';
-import { ProfileComponent } from './components/profile/profile.component';
+import { HomeComponent } from './pages/home/home.component';
+import { RegisterComponent } from './pages/register/register.component';
+import { ProfileComponent } from './pages/profile/profile.component';
 
 //SNIPPETS
-import { HeaderComponent } from './components/header/header.component';
-import { MenuComponent } from './components/menu/menu.component';
-import { FooterComponent } from './components/footer/footer.component';
+import { HeaderComponent } from './snippets/header/header.component';
+import { MenuComponent } from './snippets/menu/menu.component';
+import { FooterComponent } from './snippets/footer/footer.component';
 
 //SERVICES
 import { UserService } from './services/user.service';
-import { ProductService } from './services/product.service';
 import { MailerService } from './services/mailer.service';
 import { FileService } from './services/file.service';
 import { AuthInterceptorService } from './services/auth-interceptor.service';
+import { LoginComponent } from './pages/login/login.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     RegisterComponent,
-    ProfileComponent,
     FooterComponent,
     MenuComponent,
-    HeaderComponent
+    HeaderComponent,
+    ProfileComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -45,7 +46,6 @@ import { AuthInterceptorService } from './services/auth-interceptor.service';
       multi: true
     },
     UserService,
-    ProductService,
     MailerService,
     FileService
   ],

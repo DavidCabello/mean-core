@@ -1,0 +1,11 @@
+<app-header></app-header>
+
+<div class="login">
+    <form class="login__form" (ngSubmit)="login()" ngNativeValidate>
+        <h3>Iniciar sesión</h3>
+        <input type="email" [(ngModel)]="user.email" name="email" placeholder="Correo" required>
+        <input type="password" [(ngModel)]="user.password" name="password" placeholder="Contraseña" required>
+        <button type="submit" class="main__button">Iniciar sesión</button>
+        <a [routerLink]="['/register']" routerLinkActive="active" ><small>Registrar</small></a>
+    </form>
+</div>

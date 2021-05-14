@@ -17,8 +17,10 @@ export class AppComponent {
 
   getUser() {
     if (localStorage.getItem('token')) {
-      this.userService.getUser().subscribe(user => {
+      this.userService.logged().subscribe(user => {
         this.userService.setUser(user);
+      }, error => {
+        
       }); 
     }
   }

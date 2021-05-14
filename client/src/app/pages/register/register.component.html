@@ -1,0 +1,14 @@
+<app-header></app-header>
+
+<div class="register">
+    <form class="register__form" (ngSubmit)="register()" ngNativeValidate>
+        <h3>Registro</h3>
+        <input type="text" name="name" [(ngModel)]="user.name" placeholder="Nombre" required>
+        <input type="text" name="lastname" [(ngModel)]="user.lastname" placeholder="Apellido">
+        <input type="number" name="phone" [(ngModel)]="user.phone" placeholder="Teléfono">
+        <input type="email" name="email" [(ngModel)]="user.email" placeholder="Correo" required>
+        <input type="password" name="password" [(ngModel)]="user.password" placeholder="Contraseña" required>
+        <button type="submit" class="main__button">Registrar</button>
+    </form>
+    
+</div>

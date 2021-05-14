@@ -1,4 +1,5 @@
-<div class="menu js-menu" role="menu">
+<div #base class="menu js-menu" role="menu">
+    <button #openButton (click)="open()" hidden></button>
 
     <div class="menu__close">
 	    <a (click)="close()" class="js-close-menu">
