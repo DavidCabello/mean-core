@@ -36,13 +36,21 @@
 }
 
 button {
-    border-radius: $button-border-radius;
-    padding: $button-padding;
+    cursor: pointer;
     background: transparent;
     border: none;
     text-decoration: none !important;
-    font-weight: bolder;
-    cursor: pointer;
+
+    &.primary, &.secondary, &.bordered {
+        border-radius: 0.5rem;
+        padding: 0.5rem 2rem;;
+        font-weight: bolder;
+        &:disabled, &:disabled:hover {
+            background: lightgray;
+            color: darkgrey;
+            cursor: not-allowed;
+        }
+    }
     &:hover {
         @include transition(.3s);
     }
@@ -66,5 +74,46 @@ button {
             background: $color-primary;
             color: $color-text-light;
         }
+    }
+}
+
+.modal {
+
+    .modal-dialog {
+
+        .modal-content {
+            border-radius: 0.5rem;
+            border: none;
+
+            .modal-body {
+                text-align: center;
+
+                .btn-close {
+                    position: absolute;
+                    top: 15px;
+                    right: 15px;
+                }
+                .modal-title {
+                    margin: 0 25px 1rem;
+                }
+                .modal-message {
+
+                }
+                .modal-buttons {
+
+                    .button {
+
+                    }
+                }
+            }
+        }
+    }
+}
+
+a {
+    text-decoration: none;
+    color: $color-primary;
+    &:hover {
+        color: $color-primary-hover;
     }
 }

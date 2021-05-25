@@ -22,6 +22,7 @@ import { FileService } from './services/file.service';
 import { AuthInterceptorService } from './services/auth-interceptor.service';
 import { LoginComponent } from './pages/login/login.component';
 import { ModalComponent } from './snippets/modal/modal.component';
+import { LoadingButtonComponent } from './snippets/loading-button/loading-button.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { ModalComponent } from './snippets/modal/modal.component';
     HeaderComponent,
     ProfileComponent,
     LoginComponent,
-    ModalComponent
+    ModalComponent,
+    LoadingButtonComponent
   ],
   imports: [
     BrowserModule,

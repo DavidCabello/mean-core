@@ -30,11 +30,11 @@ export class MenuComponent implements OnInit {
   }
 
   open() {
-    TweenMax.to(this.base.nativeElement, 1, {autoAlpha: 1, transform : 'translateX(0)', ease: Expo.easeOut});
+    TweenMax.to(this.base.nativeElement, 1, {transform : 'translateX(0)', ease: Expo.easeOut});
   }
 
   close(){
-    TweenMax.to(this.base.nativeElement, 1, {opacity: .3, transform : "translateX(100vw)", ease: Expo.ease});
+    TweenMax.to(this.base.nativeElement, 1, {transform : "translateX(100vw)", ease: Expo.ease});
   }
 
   logout() {

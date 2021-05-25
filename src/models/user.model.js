@@ -6,8 +6,7 @@ const validRoles = ['user', 'admin'];
 
 const userSchema = new Schema({
   name: String,
-  lastname: String,
-  phone: Number,
+  phone: String,
   email: {type: String, required: true},
   password: {type: String, required: true},
   role: {type: String, enum: validRoles}

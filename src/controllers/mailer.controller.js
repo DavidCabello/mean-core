@@ -16,10 +16,10 @@ oauth2Client.setCredentials({
 
 const accessToken = oauth2Client.getAccessToken();
 
+const baseUrl = 'https://mean-core.herokuapp.com'
+
 mailer.send = async (req, res) => {
-   
     try {
-      
       const smtpTransport = nodemailer.createTransport({
         service: 'gmail',
         auth:{
@@ -34,7 +34,7 @@ mailer.send = async (req, res) => {
     
       smtpTransport.sendMail({
         from: 'contacto.goldensub@gmail.com',
-        to: 'david0cabello0@gmail.com',
+        to: 'jhserna.b0@gmail.com',
         subject: 'Contacto',
         html: `
           <h3>Contacto</h3>
@@ -48,25 +48,19 @@ mailer.send = async (req, res) => {
           <p>${req.body.message}</p>
         `
       },(err, success) => {
-        if(success){
-          res.json('message sent')
-        }else if (err){
-          res.json('message not sent')
-        }
+        if(success) res.json('sent')
+        else if (err) res.json('error')
       });
-      
     } catch (error) {
       res.json(error.message);
     }
-   
 };
 
 mailer.forgotenPassword = async (req, res) => {
   try {
     const user = await User.findOne({email: req.body.email});
     const encrypted = await Buffer.from(JSON.stringify(user)).toString('base64');
-    const response = 'https://mean-core.herokuapp.com/forgetPassword?encoded=' + encrypted;
-
+    const response = `${baseUrl}/forgetPassword?encoded=${encrypted}`;
       const smtpTransport = nodemailer.createTransport({
         service: 'gmail',
         auth:{
@@ -122,7 +116,7 @@ mailer.forgotenPassword = async (req, res) => {
         </head>
         <body>
           <div class="container">
-              <img src="https://mean-core.herokuapp.com/assets/icons/logo.svg" style="padding-left: 10%; padding-top: 10%">
+              <img src="${baseUrl}/assets/icons/logo.svg" style="padding-left: 10%; padding-top: 10%">
             <h1 align="center">Contraseña olvidada</h1>
             <p align="justify">Recibimos tu solicitud para recuperar tu contraseña, haz clic <a href="${response}">aquí</a> para restablecerla.</p>
     
@@ -133,9 +127,9 @@ mailer.forgotenPassword = async (req, res) => {
         `
       },(err, success) => {
         if(success){
-          res.json('message sent')
+          res.json('sent')
         }else if (err){
-          res.json(err)
+          res.json('error')
         }
       });
       

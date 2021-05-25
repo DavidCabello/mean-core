@@ -14,7 +14,13 @@ passport.use('signup', new LocalStrategy({
     const user = new User();
     user.email = email;
     user.password = await user.hashPassword(password);
-    await user.save();
+    try {
+      await user.save();
+    } catch(error) {
+      return error._message == 'user validation failed' ?
+        done(null, 'existing') :
+        done(null, 'undefined')
+    }
     return done(null, user);
   } catch(err) {
     done(err);
@@ -28,11 +34,11 @@ passport.use('login', new LocalStrategy({
   try {
     const user = await User.findOne({email});
     if (!user) {
-      return done(null, false);
+      return done(null, 'invalid');
     }
     const validation = await user.isValidPassword(password, user);
     if (!validation) {
-      return done(null, false);
+      return done(null, 'invalid');
     }
     return done(null, user);
   } catch(err) {

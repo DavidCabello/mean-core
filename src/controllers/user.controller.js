@@ -7,13 +7,42 @@ const userCtrl = { };
 
 userCtrl.signup = async (req, res) => {
   try {
-    const user = await User.findOneAndUpdate({_id: req.user._id}, {$set: {...req.body}}, {new: true});
-    const token = jwt.sign(req.user.toJSON(), keys.secret);
-    res.json({ 
-      message: 'Signup successful',
-      user: user,
-      token
-    });
+    if(req.user == 'existing') {
+      res.json({message: 'existing'})
+    } else if(req.user == 'undefined') {
+      res.json({message: 'unknown'})
+    } else {
+      const user = {...req.body}
+      delete user.password
+      user.role = 'user'
+      const created = await User.findOneAndUpdate({_id: req.user._id}, {$set: user}, {new: true});
+      const token = jwt.sign(req.user.toJSON(), keys.secret);
+      res.json({ 
+        message: 'success',
+        user: created,
+        token
+      });
+    }
+  } catch(err) {
+    res.json(err.message);
+  }
+};
+
+userCtrl.create = async (req, res) => {
+  try {
+    if(req.user == 'existing') {
+      res.json({message: 'existing'})
+    } else if(req.user == 'undefined') {
+      res.json({message: 'unknown'})
+    } else {
+      const user = {...req.body}
+      delete user.password
+      const created = await User.findOneAndUpdate({_id: req.user._id}, {$set: user}, {new: true});
+      res.json({ 
+        message: 'success',
+        user: created
+      });
+    }
   } catch(err) {
     res.json(err.message);
   }
@@ -21,13 +50,17 @@ userCtrl.signup = async (req, res) => {
 
 userCtrl.login = async (req, res) => {
   try {
-    const user = await User.findOne({_id: req.user._id});
-    const token = jwt.sign(req.user.toJSON(), keys.secret, {expiresIn: '1y'});
-    res.json({
-      message: 'Logged In',
-      user,
-      token
-    });
+    if(req.user == 'invalid') {
+      res.json({message: 'invalid'})
+    } else {
+      const user = await User.findOne({_id: req.user._id});
+      const token = jwt.sign(req.user.toJSON(), keys.secret, {expiresIn: '1y'});
+      res.json({
+        message: 'success',
+        user,
+        token
+      });
+    }
   } catch (error) {
     res.json(error.message);    
   }

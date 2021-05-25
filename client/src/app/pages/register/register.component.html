@@ -4,11 +4,13 @@
     <form class="register__form" (ngSubmit)="register()" ngNativeValidate>
         <h3>Registro</h3>
         <input type="text" name="name" [(ngModel)]="user.name" placeholder="Nombre" required>
-        <input type="text" name="lastname" [(ngModel)]="user.lastname" placeholder="Apellido">
         <input type="number" name="phone" [(ngModel)]="user.phone" placeholder="Teléfono">
-        <input type="email" name="email" [(ngModel)]="user.email" placeholder="Correo" required>
+        <input type="email" name="email" [(ngModel)]="user.email" (input)="existingEmail = false" placeholder="Correo" required>
+        <span *ngIf="existingEmail" class="error">Correo en uso</span>
         <input type="password" name="password" [(ngModel)]="user.password" placeholder="Contraseña" required>
-        <button type="submit" class="primary">Registrar</button>
+        <input type="password" name="passwordVerification" [(ngModel)]="passwordVerification" (input)="verifyPass()" placeholder="Repite la contraseña" required>
+        <span *ngIf="verificationError" class="error">Las contraseñas no coinciden</span>
+        <loading-button [label]="'Registrar'" [loading]="signingUp"></loading-button>
+        <!-- <button type="submit" class="primary">Registrar</button> -->
     </form>
-    
 </div>

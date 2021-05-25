@@ -1,0 +1,4 @@
+<button #base [type]="type" [ngClass]="class" (click)="this.clicked.emit($event)" [disabled]="showLoader || disable">
+    <span *ngIf="!showLoader">{{label}}</span>
+    <div *ngIf="showLoader" class="spinner-border"></div>
+</button>

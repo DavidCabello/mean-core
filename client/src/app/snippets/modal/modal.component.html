@@ -1,19 +1,16 @@
-<button #openButton type='button' class='{{buttonClass}}' data-toggle='modal' [attr.data-target]='"#_" + name' [hidden]="!showButton">
+<button #openButton type='button' class='{{buttonClass}}' data-bs-toggle='modal' [attr.data-bs-target]='"#_" + name' [hidden]="!showButton">
     {{buttonLabel}}
 </button>
-<div #modal class='modal fade' id='_{{name}}' data-keyboard='false' tabindex='-1' [attr.aria-labelledby]='"_" + name + "Label"' aria-hidden='true'>
+<div #modal class='modal fade' id='_{{name}}' tabindex='-1' [attr.aria-labelledby]='"_" + name + "Label"' aria-hidden='true'>
     <div class='modal-dialog' [ngClass]="{'modal-dialog-centered': centered}">
         <div class='modal-content'>
             <div class='modal-body'>
                 <h5 class='modal-title' id='_{{name}}Label'>{{header}}</h5>
-                <button type='button' class='close' data-dismiss='modal' aria-label='Close' [hidden]="!times">
-                    <span aria-hidden='true'>&times;</span>
-                </button>
-                <p class="modal-message">{{body}}</p>
+                <button #closeButton type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close' [hidden]="!times"></button>
+                <p class="modal-message" *ngFor="let line of body">{{line}}</p>
                 <div class="modal-buttons">
-                    <button *ngIf="confirmation" [ngClass]="cancelButtonClass ? cancelButtonClass : buttonClass" data-dismiss='modal' (click)="response.emit(false)">{{cancelButtonLabel}}</button>
-                    <button *ngIf="confirmation" [ngClass]="acceptButtonClass ? acceptButtonClass : buttonClass" data-dismiss='modal' (click)="response.emit(true)">{{acceptButtonLabel}}</button>
-                    <button *ngIf="!confirmation" [ngClass]="acceptButtonClass ? acceptButtonClass : buttonClass" data-dismiss='modal'>{{acceptButtonLabel}}</button>
+                    <button *ngIf="confirmation" [ngClass]="cancelButtonClass ? cancelButtonClass : buttonClass" (click)="emit(false)">{{cancelButtonLabel}}</button>
+                    <button [ngClass]="acceptButtonClass ? acceptButtonClass : buttonClass" (click)="emit(true)">{{acceptButtonLabel}}</button>
                 </div>
             </div>
         </div>

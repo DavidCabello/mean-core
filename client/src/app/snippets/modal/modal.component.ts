@@ -19,18 +19,19 @@ export class ModalComponent implements OnInit {
 
   @Input() times: boolean = true
   @Input() header: string
-  @Input() body: string
+  @Input() body: string[]
 
   @Input() cancelButtonClass: string
   @Input() acceptButtonClass: string
   @Input() cancelButtonLabel: string = 'Cancelar'
   @Input() acceptButtonLabel: string = 'Aceptar'
 
-  @Output() reponse = new EventEmitter<boolean>()
+  @Output() response = new EventEmitter<boolean>()
   @Output() open = new EventEmitter<ElementRef>()
 
   @ViewChild('modal', {static: false}) modal: ElementRef
   @ViewChild('openButton', {static: false}) openButton: ElementRef
+  @ViewChild('closeButton', {static: false}) closeButton: ElementRef
 
   constructor() { }
 
@@ -38,6 +39,14 @@ export class ModalComponent implements OnInit {
 
   ngAfterViewInit() {
     this.open.emit(this.openButton)
-    if(this.static) this.modal.nativeElement.setAttribute('data-backdrop', 'static')
+    if(this.static) {
+      this.modal.nativeElement.setAttribute('data-bs-backdrop', 'static')
+      this.modal.nativeElement.setAttribute('data-bs-keyboard', false)
+    }
+  }
+
+  emit(response) {
+    this.closeButton.nativeElement.click()
+    this.response.emit(response)
   }
 }

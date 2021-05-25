@@ -1,11 +1,39 @@
 <app-header></app-header>
 
 <div class="login">
-    <form class="login__form" (ngSubmit)="login()" ngNativeValidate>
+    <form (ngSubmit)="login()" ngNativeValidate>
         <h3>Iniciar sesión</h3>
         <input type="email" [(ngModel)]="user.email" name="email" placeholder="Correo" required>
         <input type="password" [(ngModel)]="user.password" name="password" placeholder="Contraseña" required>
-        <button type="submit" class="primary">Iniciar sesión</button>
-        <a [routerLink]="['/register']" routerLinkActive="active" ><small>Registrar</small></a>
+        <span *ngIf="error" class="error">Correo o contraseña incorrectos</span>
+        <a data-bs-toggle='modal' data-bs-target='#recoverPassword'>Olvidé mi contraseña</a>
+        <loading-button [label]="'Iniciar sesión'" [loading]="loggingIn"></loading-button>
+        <a [routerLink]="['/register']">Crear una cuenta</a>
     </form>
 </div>
+
+<div class='modal fade' id='recoverPassword' tabindex='-1' aria-labelledby='recoverPasswordLabel' aria-hidden='true'>
+    <div class='modal-dialog modal-dialog-centered'>
+        <div class='modal-content'>
+            <div class='modal-body'>
+                <h5 class='modal-title' id='recoverPasswordLabel'>Recuperar contraseña</h5>
+                <button #closeRecover type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
+                <p class="modal-message">Te enviaremos un correo para restablecer tu contraseña.</p>
+                <form (ngSubmit)="reset()" ngNativeValidate>
+                    <input type="email" [(ngModel)]="user.email" name="email" placeholder="Correo" required>
+                    <button type="submit" class="primary">Enviar correo</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-modal
+    [name]="'recoverSended'"
+    [showButton]="false"
+    [times]="false"
+    [header]="'Correo enviado'"
+    [body]="['Sigue las instrucciones que enviamos a tu correo para restablecer tu contraseña']"
+    (open)="openRecoverSuccess = $event"
+    (response)="reload()">
+</app-modal>
