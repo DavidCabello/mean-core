@@ -9,7 +9,8 @@ const userSchema = new Schema({
   phone: String,
   email: {type: String, required: true},
   password: {type: String, required: true},
-  role: {type: String, enum: validRoles}
+  role: {type: String, enum: validRoles},
+  validated: {type: Boolean, default: false}
 }, {timestamps: true});
 
 userSchema.methods.hashPassword = async (password) => {

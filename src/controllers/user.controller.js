@@ -15,6 +15,7 @@ userCtrl.signup = async (req, res) => {
       const user = {...req.body}
       delete user.password
       user.role = 'user'
+      user.validated = false
       const created = await User.findOneAndUpdate({_id: req.user._id}, {$set: user}, {new: true});
       const token = jwt.sign(req.user.toJSON(), keys.secret);
       res.json({ 
@@ -63,6 +64,23 @@ userCtrl.login = async (req, res) => {
     }
   } catch (error) {
     res.json(error.message);    
+  }
+};
+
+userCtrl.validate = async (req, res) => {
+  try {
+    let user;
+    if (req.query.encoded) {
+      const decoded = await Buffer.from(req.query.encoded, 'base64').toString();
+      const parsed = await JSON.parse(decoded);
+      user = await User.findOne({_id: parsed._id});
+    } else {
+      user = await User.findOne({_id: req.query.id});
+    }
+    const updated = await User.findOneAndUpdate({_id: user._id}, {$set: {validated: true}}, {new: true});
+    res.json(updated);
+  } catch (error) {
+    res.json(error);
   }
 };
 

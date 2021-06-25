@@ -138,4 +138,79 @@ mailer.forgotenPassword = async (req, res) => {
     }
 };
 
+mailer.validate = async (req, res) => {
+  try {
+    const user = await User.findOne({email: req.body.email});
+    const encrypted = await Buffer.from(JSON.stringify(user)).toString('base64');
+    const response = `https://${baseUrl}/validate?encoded=${encrypted}`;
+
+      const smtpTransport = nodemailer.createTransport({
+        service: 'gmail',
+        auth:{
+          type: 'OAuth2',
+          user: 'contacto.goldensub@gmail.com', 
+          clientId: process.env.OAUTH_CLIENT_ID,
+          clientSecret: process.env.OAUTH_CLIENT_SECRET,
+          refreshToken: process.env.OAUTH_REFRESH_TOKEN,
+          accessToken: accessToken
+        }
+      });
+    
+      smtpTransport.sendMail({
+        from: 'noreply@goldensub.com',
+        to: req.body.email,
+        subject: 'Account validation',
+        html: `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <meta charset="utf-8" />
+          <meta http-equiv="X-UA-Compatible" content="IE=edge">
+          <title>Forget password</title>
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+          <style>
+          body {
+            background: #fff;
+            font-family: 'Roboto', sans-serif;
+          }
+          .container {
+            padding-bottom: 10%;
+          }
+          h1 {
+            padding-right: 10%;
+            padding-left: 10%;
+          }
+          p {
+            padding-right: 10%;
+            padding-left: 10%;
+          }
+          svg {
+            padding-left: 10%;
+          }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <h1>Verify your register</h1>
+            <p align="justify">You can start using your account by clicking <a href="${response}">here</a></p>
+    
+            <p align="justify">If you did not make this request, please ignore this email.</p>
+          </div>
+        </body>
+        </html>
+        `
+      },(err, success) => {
+        if(success){
+          res.json('message sent')
+        }else if (err){
+          res.json(err)
+        }
+      });
+      
+    } catch (error) {
+      res.json(error);
+    }
+};
+
 module.exports = mailer;

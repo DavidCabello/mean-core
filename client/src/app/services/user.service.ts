@@ -27,6 +27,10 @@ export class UserService {
     return this.http.post(`${environment.apiURL}/users/login`, user);
   }
 
+  validate(encoded) {
+    return this.http.get(`${environment.apiURL}/users/validate?encoded=${encoded}`);
+  }
+
   logged() {
     return this.http.get(`${environment.apiURL}/users/logged`);
   }
