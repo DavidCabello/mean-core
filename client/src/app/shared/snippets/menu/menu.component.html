@@ -1,0 +1,58 @@
+<div #background class="menu-background" (click)="close()">
+</div>
+
+<div #base class="menu" role="menu">
+    <button #openButton (click)="open()" hidden></button>
+
+    <button class="icon-button close-button" (click)="close()">
+        <img src='assets/icons/times.svg'>
+    </button>
+
+    <a class="menu-logo" [routerLink]="['/']" title="logo">
+        <img src="assets/icons/logo-blue.svg" alt="logo">
+    </a>
+
+    <nav class="menu-nav">
+        <a routerLink="/resumen" routerLinkActive="active" class="menu-element">
+            <img src='assets/icons/dashboard.svg'>
+            <span>Resumen</span>
+        </a>
+        <a routerLink="/buscar" routerLinkActive="active" class="menu-element menu-element-res">
+            <img src='assets/icons/search-marker.svg'>
+            <span>Buscar inmuebles</span>
+        </a>
+        <a routerLink="/clientes" routerLinkActive="active" class="menu-element menu-element-res">
+            <img src='assets/icons/clients.svg'>
+            <span>Clientes</span>
+        </a>
+        <a routerLink="/inmobiliaria" routerLinkActive="active" class="menu-element">
+            <img src='assets/icons/building.svg'>
+            <span>Mi inmobiliaria</span>
+        </a>
+        <a class="menu-element">
+            <img src='assets/icons/home.svg'>
+            <span>Mis inmuebles</span>
+        </a>
+        <a class="menu-element">
+            <img src='assets/icons/bookmark.svg'>
+            <span>Guardados</span>
+        </a>
+        <a routerLink="/tareas" routerLinkActive="active" class="menu-element">
+            <img src='assets/icons/clipboard.svg'>
+            <span>Tareas</span>
+        </a>
+        <a routerLink="/cuenta" routerLinkActive="active" class="menu-element">
+            <img src='assets/icons/user.svg'>
+            <span>Mi cuenta</span>
+        </a>
+    </nav>
+
+    <div class="pro-button">
+        <button class="cta">Actualizar a Vilcom Pro</button>
+    </div>
+    
+    <a class="logout" (click)="logout()">
+        <img src='assets/icons/logout.svg'>
+        <span>Cerrar sesión ({{user?.name | name}})</span>
+    </a>
+</div>

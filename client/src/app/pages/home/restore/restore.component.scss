@@ -1,0 +1,22 @@
+@import "../../../../assets/scss/base.scss";
+@import "../../../../assets/scss/helpers.scss";
+@import "../../../../assets/scss/components.scss";
+
+.restore {
+    min-height: calc(100vh - 225px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+    .restore-content {
+        width: 400px;
+        background: $color-divider;
+        padding: 25px;
+        border-radius: 20px;
+        box-shadow: $shadow;
+        h5 {
+            margin-bottom: 2rem;
+        }
+    }
+}

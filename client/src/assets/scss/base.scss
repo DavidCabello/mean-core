@@ -1,21 +1,23 @@
 /* = Colors
 -----------------------------------------------------------------------------*/
-$color-primary:				#e2be5a;
-$color-primary-hover:		#c4a759;
-$color-secondary: 			#2F2F2F;
+$color-primary:				#1F5A76;
+$color-secondary: 			#E1A327;
 
-$color-text:				#2F2F2F;
-$color-text-light:			#FFFFFF;
-$color-text-black:			#131313;
+$color-text:				$color-primary;
+$color-text-light:			#FAFAFA;
+$color-text-black:			#848484;
 
-$color-accent:				#F8F8F9;
-$color-divider:				#E0E0E0;
+$color-divider:				#ECF3F9;
+$color-accent:				#E4EBF0;
 
-$color-select-bg:	 		#e2be5a;
-$color-select-text:			#131313;
-$color-placeholder:			#CCCCCC;
+$color-select-bg:	 		#E1A327;
+$color-select-text:			#1F5A76;
+$color-placeholder:			$color-text-black;
 
+$color-error:				#C74949;
+$color-success:				#198754;
 
+$shadow:					0 5px 10px -2px #cecece, 0 0 3px 0px #cecece;
 /* = Size Breakpoints
 -----------------------------------------------------------------------------*/
 $screen-xs:				576px  !default;
@@ -26,10 +28,8 @@ $screen-full:			1600px  !default;
 
 /* = Fonts
 -----------------------------------------------------------------------------*/
-$text-bold: 		"Segoe UI", "Roboto", "Helvetica Neue", "Arial", "sans-serif";
-$text-semiBold: 	"Segoe UI", "Roboto", "Helvetica Neue", "Arial", "sans-serif";
-$text-regular: 		"Segoe UI", "Roboto", "Helvetica Neue", "Arial", "sans-serif";
-$text-light: 		"Segoe UI", "Roboto", "Helvetica Neue", "Arial", "sans-serif";
+$text-bold: 		"Helvetica Bold";
+$text-regular: 		"Helvetica";
 
 /* = Mixings
 -----------------------------------------------------------------------------*/
@@ -38,16 +38,8 @@ $text-light: 		"Segoe UI", "Roboto", "Helvetica Neue", "Arial", "sans-serif";
 	font-family: $text-bold;
 }
 
-@mixin text-semiBold{
-	font-family: $text-semiBold;
-}
-
 @mixin text-regular{
 	font-family: $text-regular;
-}
-
-@mixin text-light{
-	font-family: $text-light;
 }
 
 
@@ -59,6 +51,8 @@ html{
 
 body{
 	@include text-regular();
+	color: $color-text;
+    background: #f9f9f9;
 }
 
 /* =Titles
@@ -150,6 +144,24 @@ code, pre{
 	color: $color-placeholder;
 }
 
+//Scroll bar
 
+::-webkit-scrollbar {
+	width: 5px;
+	height: 5px;
+}
+
+::-webkit-scrollbar-track {
+	background: transparent; 
+}
+
+::-webkit-scrollbar-thumb {
+	background: $color-primary;
+	border-radius: 2.5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: #1F5A76EE;
+}
 
 

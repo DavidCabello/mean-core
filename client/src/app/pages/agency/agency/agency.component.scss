@@ -1,0 +1,238 @@
+@import "../../../../assets/scss/base.scss";
+@import "../../../../assets/scss/helpers.scss";
+@import "../../../../assets/scss/components.scss";
+
+.agency-logo {
+    max-width: 200px;
+    height: 120px;
+    @include media(small) {
+        margin-bottom: 1rem;
+    }
+}
+.agency {
+
+    .pro-badge {
+        padding: 5px 10px;
+        border-radius: 5px;
+        background: $color-secondary;
+        color: $color-text-light;
+        font-family: $text-bold;
+    }
+    .no-agency {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        width: 100%;
+        min-height: 60vh;
+
+        h6 {
+            margin-bottom: 2rem;
+        }
+        img {
+            width: 100px;
+            object-fit: contain;
+            margin-bottom: 1rem;
+        }
+    }
+    .page-area {
+
+        &.agency-header {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            @include media(small) {
+                flex-wrap: wrap;
+            }
+        }
+        .agency-info {
+            display: flex;
+            @include media(small) {
+                width: 100%;
+                flex-direction: column;
+                align-items: center;
+                margin-bottom: 1rem;
+            }
+
+            .agency-name {
+                display: flex;
+                align-items: center;
+                padding-left: 1rem;
+                @include media(small) {
+                    padding: 0;
+                }
+
+                &:hover {
+                    .icon-button {
+                        opacity: 1;
+                    }
+                }
+                p {
+                    margin: 0;
+                    font-family: $text-bold;
+                    font-size: 1.5rem;
+                    color: $color-secondary;
+                }
+                input {
+                    background: $color-text-light;
+                    border: none;
+                    font-family: 'Helvetica Bold';
+                    font-size: 1.5rem;
+                    color: #E1A327;
+                    border-radius: 10px;
+                    padding: 10px 15px;
+                    box-shadow: $shadow;
+                }
+                .edit-icon {
+                    opacity: 0;
+                    transition: opacity 0.2s;
+                    @include media(small) {
+                        opacity: 1;
+                    }
+                }
+            }
+        }
+        .agency-navigation {
+            display: flex;
+            @include media(small) {
+                width: 100%;
+                justify-content: space-around;
+            }
+            @include media(xs) {
+                flex-direction: column;
+            }
+            .me-3 {
+                @include media(small) {
+                    margin-right: 0 !important;
+                }
+                @include media(xs) {
+                    margin-bottom: 1rem;
+                }
+            }
+        }
+        .agents-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            @include media(small) {
+                flex-direction: column-reverse;
+            }
+            .area-buttons {
+                @include media(small) {
+                    margin-bottom: 1rem;
+                    display: flex;
+                    justify-content: space-between;
+                }
+                @include media(xs) {
+                    flex-direction: column;
+                }
+                .me-3 {
+                    @include media(small) {
+                        margin-right: 0 !important;
+                    }
+                    @include media(xs) {
+                        margin-bottom: 1rem;
+                    }
+                }
+            }
+        }
+    }
+}
+#permissionsManager {
+
+    .col:first-child {
+        @include media(small) {
+            margin-bottom: 1rem;
+        }
+    }
+    .content-header {
+        margin-bottom: 0.5rem;
+        padding-left: 1rem;
+    }
+    .role-container {
+        background: #FAFAFA;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: $shadow;
+        height: 100%;
+
+        .role-list {
+            display: flex;
+            flex-direction: column;
+
+            .role-list-element {
+                padding: 10px 15px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                cursor: pointer;
+                transition: all 0.3s ease-out;
+                &:hover {
+                    background: #F0F0F0;
+                    button {
+                        opacity: 1;
+                    }
+                }
+                &.selected {
+                    background: $color-accent;
+                }
+                button {
+                    opacity: 0;
+                    border-radius: 5px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    padding: 6px;
+                    transition: background 0.3s ease-out;
+    
+                    &:hover {
+                        background: $color-divider;
+                    }
+
+                    img {
+                        width: 10px;
+                        height: 10px;
+                        object-fit: contain;
+                    }
+                }
+            }
+        }
+        .role-form {
+            display: flex;
+            align-items: stretch;
+            justify-content: space-between;
+            background: #F0F0F0;
+            border-radius: 20px;
+            margin: 15px;
+            overflow: hidden;
+
+            &.input-error {
+                margin-bottom: 0;
+            }
+            input {
+                width: 80%;
+                border: none;
+                color: #1F5A76;
+                padding: 0;
+                padding-left: 15px;
+                margin: 5px 0;
+                background: none;
+            }
+            button {
+                padding: 0;
+                width: 20%;
+                transition: background 0.3s ease-out;
+
+                &:hover {
+                    background: $color-divider;
+                }
+                img {
+                    width: 15px;
+                    height: 15px;
+                    object-fit: contain;
+                }
+            }
+        }
+    }
+}

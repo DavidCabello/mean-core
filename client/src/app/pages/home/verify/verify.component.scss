@@ -1,0 +1,33 @@
+@import "../../../../assets/scss/base.scss";
+@import "../../../../assets/scss/helpers.scss";
+@import "../../../../assets/scss/components.scss";
+
+.verify {
+    min-height: calc(100vh - 225px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+    .mat-icon {
+        font-size: 5rem;
+        height: auto;
+        width: auto;
+    }
+    .verifying {
+        .spinner-border {
+            width: 5rem;
+            height: 5rem;
+            margin-bottom: 2rem;
+            color: $color-secondary;
+        }
+    }
+    .verified {
+        .mat-icon {
+            color: #198754;
+        }
+    }
+    .verification-error {
+
+    }
+}

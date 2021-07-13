@@ -1,0 +1,41 @@
+<app-header></app-header>
+
+<main class="taskboard page page-res">
+    <div class="page-header">
+        <h5>Tareas</h5>
+        <div *ngIf="loading" class="spinner-border"></div>
+    </div>
+    <div class="page-area area-white pt-0 text-end">
+        <task-form [task]="newTask" [user]="user" [clientList]="[]" [propertyList]="[]" (saved)="handleTaskSaved($event)"></task-form>
+    </div>
+    <div class='row'>
+        <div class='col col-md-6 col-12'>
+            <div class="page-area res-m2">
+                <h6 class="area-header">Próximas por hacer</h6>
+                <task-list [user]="user" (loading)="handleTodoState($event)" (reload)="reloadTodo = $event"></task-list>
+            </div>
+        </div>
+        <div class='col col-md-6 col-12'>
+            <nav>
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <button class="nav-link active" id="nav-done-tab" data-bs-toggle="tab" data-bs-target="#nav-done" type="button" role="tab" aria-controls="nav-done" aria-selected="false">Completadas</button>
+                    <button class="nav-link" id="nav-canceled-tab" data-bs-toggle="tab" data-bs-target="#nav-canceled" type="button" role="tab" aria-controls="nav-canceled" aria-selected="false">Canceladas</button>
+                </div>
+            </nav>
+            <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade show active" id="nav-done" role="tabpanel" aria-labelledby="nav-done-tab">
+                    <div class="page-area tab-first">
+                        <task-list [user]="user" [type]="'canceled'" (reload)="reloadCanceled = $event"></task-list>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="nav-canceled" role="tabpanel" aria-labelledby="nav-canceled-tab">
+                    <div class="page-area">
+                        <task-list [user]="user" [type]="'done'" (reload)="reloadDone = $event"></task-list>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<app-footer></app-footer>

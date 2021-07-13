@@ -17,7 +17,7 @@ module.exports = {
   },
   isLoggedIn: async (req, res, next) => {
     if (req.headers.token === undefined || req.headers.token === null) {
-      res.status(403).end();
+      res.json('not logged in').end();
     } else {
       const decoded = await jwt.verify(req.headers.token, keys.secret);
       const user = await User.findOne({_id: decoded._id});

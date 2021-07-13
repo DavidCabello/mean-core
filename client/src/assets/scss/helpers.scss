@@ -43,47 +43,13 @@
 	}
 }
 
-// CENTER,HORIZONTAL,VERITCAL-ALIGN
-
-@mixin center-align() {
-	-moz-transform: translateX(-50%) translateY(-50%);
-	-webkit-transform: translateX(-50%) translateY(-50%);
-	-o-transform: translateX(-50%) translateY(-50%);
-	-ms-transform: translateX(-50%) translateY(-50%);
-	transform: translateX(-50%) translateY(-50%);
-}
-
-@mixin normal-align() {
-	-moz-transform: none;
-	-webkit-transform: none;
-	-o-transform: none;
-	-ms-transform: none;
-	transform: none;
-}
-
-@mixin horizontal-align() {
-	-moz-transform: translateX(-50%);
-	-webkit-transform: translateX(-50%);
-	-o-transform: translateX(-50%);
-	-ms-transform: translateX(-50%);
-	transform: translateX(-50%);
-}
-
-@mixin vertical-align(){
-	-moz-transform: translateY(-50%);
-	-webkit-transform: translateY(-50%);
-	-o-transform: translateY(-50%);
-	-ms-transform: translateY(-50%);
-	transform: translateY(-50%);
-}
-
 //TRANSITIONS
 
 @mixin transition($time){
-	-webkit-transition: all $time ease-in-out;
-	-moz-transition: all $time ease-in-out;
-	-ms-transition: all $time ease-in-out;
-	-o-transition: all $time ease-in-out;
-	transition: all $time ease-in-out;
+	-webkit-transition: all $time ease-out;
+	-moz-transition: all $time ease-out;
+	-ms-transition: all $time ease-out;
+	-o-transition: all $time ease-out;
+	transition: all $time ease-out;
 }
 

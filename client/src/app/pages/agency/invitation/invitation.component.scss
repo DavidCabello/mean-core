@@ -1,0 +1,70 @@
+@import "../../../../assets/scss/base.scss";
+@import "../../../../assets/scss/helpers.scss";
+@import "../../../../assets/scss/components.scss";
+
+.invitation {
+    min-height: 100vh;
+
+    .vilcom-logo {
+        height: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 50px;
+        @include media(xs) {
+            padding: 0 20px;
+            height: 75px;
+        }
+        img {
+            width: 160px;
+            object-fit: contain;
+            @include media(xs){
+              width: 40%;
+            }
+        }
+    }
+    .agency-invitation {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 1rem;
+        padding: 0 15px;
+        text-align: center;
+        @include media(xs) {
+            margin-top: 1rem;
+        }
+
+        img {
+            border-radius: 10px;
+            max-width: 200px;
+            height: 100px;
+            object-fit: contain;
+            margin-bottom: 1rem;
+        }
+        h5 {
+
+        }
+    }
+    .page-area {
+        width: 400px;
+        margin: 0 auto 50px;
+        background: $color-divider;
+        padding: 20px;
+        border-radius: 15px;
+        text-align: center;
+        box-shadow: $shadow;
+        @include media(xs) {
+            width: 90%;
+        }
+
+        .existing-user {
+
+        }
+        .new-user {
+
+        }
+        .confirmation {
+
+        }
+    }
+}

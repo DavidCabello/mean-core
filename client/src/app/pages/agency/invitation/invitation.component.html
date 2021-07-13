@@ -1,0 +1,158 @@
+<main class="invitation">
+    <page-loader [display]="!userLoaded || !agencyLoaded"></page-loader>
+    <div class="vilcom-logo">
+        <img src='assets/icons/logo-blue.svg' alt='Vilcom'>
+        <!-- <div class="d-flex flex-column">
+            <div class="d-flex">
+                <input type="checkbox" name="existing" id="existing" [(ngModel)]="existing">
+                <label for="existing">Existing</label>
+            </div>
+            <div class="d-flex">
+                <input type="checkbox" name="existing" id="existing" [(ngModel)]="user._id" [value]="'1'">
+                <label for="existing">User</label>
+            </div>
+        </div> -->
+    </div>
+    <div class="agency-invitation">
+        <img [src]="agency.logo_url" [alt]="agency.name">
+        <h5>{{invitation.sender}} te ha invitado a {{agency.name}}</h5>
+    </div>
+    <div class="page-area">
+        <div *ngIf="invitation.existing && !user._id" class="existing-user">
+            <form (ngSubmit)="login()" ngNativeValidate>
+                <h6>Inicia sesión en tu cuenta para colaborar con esta inmobiliaria</h6>
+                <p class="bold c-secondary">{{invitation.email}}</p>
+                <mat-form-field appearance="outline" [ngClass]="{'input-error': loginError}">
+                    <mat-label>Contraseña</mat-label>
+                    <input [type]="hideLoginPassword ? 'password' : 'text'" [(ngModel)]="user.password" name="password" required matInput>
+                    <button type="button" mat-icon-button matSuffix (click)="hideLoginPassword = !hideLoginPassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                        <mat-icon>{{hideLoginPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </button>
+                </mat-form-field>
+                <span *ngIf="loginError" class="error d-block">Contraseña incorrecta</span>
+                <a class="primary d-block mb-3" (click)="recoverPassword()">Olvidé mi contraseña</a>
+                <loading-button [label]="'Iniciar sesión'" [loading]="loggingIn"></loading-button>
+            </form>
+        </div>
+        <div *ngIf="!invitation.existing && !user._id" class="new-user">
+            <form *ngIf="signup" (ngSubmit)="signup()" ngNativeValidate>
+                <h6>Crea una cuenta para colaborar con esta inmobiliaria</h6>
+                <p class="bold c-secondary">{{invitation.email}}</p>
+                <mat-form-field appearance="outline">
+                    <mat-label>Nombre</mat-label>
+                    <input type="text" name="name" [(ngModel)]="user.name" required matInput>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>Teléfono</mat-label>
+                    <input type="tel" name="phone" [(ngModel)]="user.phone" required matInput>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>Contraseña</mat-label>
+                    <input [type]="hideSignupPassword ? 'password' : 'text'" [(ngModel)]="user.password" name="password" required matInput>
+                    <button type="button" mat-icon-button matSuffix (click)="hideSignupPassword = !hideSignupPassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                        <mat-icon>{{hideSignupPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </button>
+                </mat-form-field>
+                <mat-form-field appearance="outline" [ngClass]="{'input-error': verificationError}">
+                    <mat-label>Vuelve a escribir la contraseña</mat-label>
+                    <input [type]="hideVerificationPassword ? 'password' : 'text'" name="passwordVerification" [(ngModel)]="passwordVerification" (input)="verifyPass()" required matInput>
+                    <button type="button" mat-icon-button matSuffix (click)="hideVerificationPassword = !hideVerificationPassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                        <mat-icon>{{hideVerificationPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </button>
+                </mat-form-field>
+                <span class="input-error" *ngIf="verificationError">Las contraseñas no coinciden</span>
+                <loading-button [label]="'Crear mi cuenta'" [loading]="signingUp"></loading-button>
+            </form>
+        </div>
+        <div *ngIf="user._id" class="confirmation">
+            <p class="bold">¿Estás seguro que deseas ingresar a {{agency.name}}?</p>
+            <p class="bold c-secondary">{{user.name}} ({{user.email}})</p>
+            <p>Si ya posees o eres parte de otra inmobiliaria, deberán volver a enviarte una invitación.</p>
+            <p>Todos tus inmuebles serán visibles para {{agency.name}}</p>
+            <div class="d-flex justify-content-evenly">
+                <loading-button [label]="'Rechazar'" [loading]="rejectLoading" [class]="'bordered'" (clicked)="reject()"></loading-button>
+                <loading-button [label]="'Aceptar la invitación'" [loading]="acceptLoading" (clicked)="accept()"></loading-button>
+            </div>
+        </div>
+    </div>
+</main>
+
+<app-modal
+    [name]="'verify'"
+    [showButton]="false"
+    [static]="false"
+    [header]="'Verificación necesaria'"
+    [body]="['Para comenzar a usar tu cuenta, sigue las instrucciones que enviamos a tu correo electrónico.']"
+    (open)="openVerify = $event"
+    (response)="goHome()">
+</app-modal>
+
+<app-modal
+    [name]="'verifySended'"
+    [showButton]="false"
+    [static]="false"
+    [header]="'Correo enviado'"
+    [body]="['Hemos enviado las instrucciones a tu correo electrónico para verificar tu cuenta.']"
+    (open)="openSended = $event">
+</app-modal>
+
+<app-modal
+    [name]="'error'"
+    [showButton]="false"
+    [header]="'Ha ocurrido un error'"
+    [body]="['Si continua viendo este error, por favor contáctenos.']"
+    (open)="openError = $event"
+    (response)="reload()">
+</app-modal>
+
+<button #openSendVerification data-bs-toggle='modal' data-bs-target='#unverifiedAccount' hidden></button>
+<div #sendVerificationModal class='modal fade' id='unverifiedAccount' tabindex='-1' aria-labelledby='unverifiedAccountLabel' aria-hidden='true'>
+    <div class='modal-dialog modal-dialog-centered'>
+        <div class='modal-content'>
+            <div class='modal-body'>
+                <h5 class='modal-title' id='unverifiedAccountLabel'>Tu cuenta no ha sido verificada</h5>
+                <button #closeSendVerification type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close' hidden></button>
+                <div class="line"></div>
+                <div class='modal-message'>
+                    <p>Sigue las instrucciones que hemos enviado a tu correo para verificar tu cuenta.</p>
+                </div>
+                <div class='modal-buttons'>
+                    <loading-button [label]="'Enviar de nuevo'" [loading]="sendingVerification" [class]="'bordered'" (clicked)="sendVerification()"></loading-button>
+                    <button class="primary" data-bs-dismiss='modal'>Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<button #openRecover data-bs-toggle='modal' data-bs-target='#recoverPassword' hidden></button>
+<div #recoverModal class='modal fade' id='recoverPassword' tabindex='-1' aria-labelledby='recoverPasswordLabel' aria-hidden='true'>
+    <div class='modal-dialog modal-dialog-centered'>
+        <div class='modal-content'>
+            <div class='modal-body'>
+                <h5 class='modal-title' id='recoverPasswordLabel'>Recuperar contraseña</h5>
+                <button #closeRecover type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close' hidden></button>
+                <div class="line"></div>
+                <p class="modal-message">Te enviaremos un correo para restablecer tu contraseña.</p>
+                <form (ngSubmit)="reset()" ngNativeValidate>
+                    <p class="bold c-secondary">{{invitation.email}}</p>
+                    <div class="d-flex justify-content-evenly">
+                        <button data-bs-dismiss="modal" class="bordered">Cancelar</button>
+                        <loading-button [label]="'Enviar correo'" [loading]="sendingMail"></loading-button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-modal
+    [name]="'recoverSended'"
+    [showButton]="false"
+    [times]="false"
+    [header]="'Correo enviado'"
+    [body]="['Sigue las instrucciones que enviamos a tu correo para restablecer tu contraseña']"
+    (open)="openRecoverSuccess = $event">
+</app-modal>
+
+<app-footer></app-footer>

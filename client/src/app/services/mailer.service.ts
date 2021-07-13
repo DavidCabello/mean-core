@@ -13,8 +13,16 @@ export class MailerService {
     return this.http.post(`${environment.apiURL}/mailer/send`, mail);
   }
 
-  reset(mail) {
-    return this.http.post(`${environment.apiURL}/mailer/forgetPassword`, mail);
+  reset(email) {
+    return this.http.post(`${environment.apiURL}/mailer/forgetPassword`, {email});
+  }
+
+  sendVerification(email) {
+    return this.http.post(`${environment.apiURL}/mailer/verify`, {email})
+  }
+
+  invite(invitation) {
+    return this.http.post(`${environment.apiURL}/mailer/invite`, invitation)
   }
 
 }

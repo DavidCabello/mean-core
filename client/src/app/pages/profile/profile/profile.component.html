@@ -1,0 +1,95 @@
+<app-header></app-header>
+
+<main class="profile page">
+    <div class="page-header">
+        <h5>Información de la cuenta</h5>
+    </div>
+    <div class='row'>
+        <div class='col col-md-5 col-12'>
+            <div class="page-area area-m2">
+                <h6 class="area-header">Datos del perfil</h6>
+                <form (ngSubmit)="update()" ngNativeValidate>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Nombre</mat-label>
+                        <input type="text" name="name" [(ngModel)]="user.name" required matInput>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Teléfono</mat-label>
+                        <input type="tel" name="phone" [(ngModel)]="user.phone" required matInput>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" [ngClass]="{'input-error': existingEmail || emailChanged}">
+                        <mat-label>Correo electrónico</mat-label>
+                        <input type="email" [(ngModel)]="user.email" (input)="checkEmail()" name="email" required matInput>
+                    </mat-form-field>
+                    <span *ngIf="existingEmail" class="input-error">Ya existe una cuenta con ese correo</span>
+                    <span *ngIf="emailChanged && !existingEmail" class="input-hint">Tendrás que verificar el nuevo correo</span>
+                    <div class="text-center">
+                        <loading-button [label]="'Guardar cambios'" [loading]="updating"></loading-button>
+                    </div>
+                </form>
+            </div>
+            <div class="page-area res-m2">
+                <h6 class="area-header">Cambiar contraseña</h6>
+                <form #passForm (ngSubmit)="updatePassword(passForm)" ngNativeValidate>
+                    <mat-form-field appearance="outline" [ngClass]="{'input-error': authError}">
+                        <mat-label>Contraseña actual</mat-label>
+                        <input [type]="hidePassword ? 'password' : 'text'" name="passwordVerification" [(ngModel)]="password" (input)="authError = false" required matInput>
+                        <button type="button" mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                            <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+                        </button>
+                    </mat-form-field>
+                    <span class="input-error" *ngIf="authError">La contraseña es incorrecta</span>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Nueva contraseña</mat-label>
+                        <input [type]="hideNewPassword ? 'password' : 'text'" [(ngModel)]="newPassword" name="password" required matInput>
+                        <button type="button" mat-icon-button matSuffix (click)="hideNewPassword = !hideNewPassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                            <mat-icon>{{hideNewPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+                        </button>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" [ngClass]="{'input-error': verificationError}">
+                        <mat-label>Repite la nueva contraseña</mat-label>
+                        <input [type]="hideVerificationPassword ? 'password' : 'text'" name="passwordVerification" [(ngModel)]="verification" (input)="verifyPass()" required matInput>
+                        <button type="button" mat-icon-button matSuffix (click)="hideVerificationPassword = !hideVerificationPassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                            <mat-icon>{{hideVerificationPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+                        </button>
+                    </mat-form-field>
+                    <span class="input-error" *ngIf="verificationError">Las contraseñas no coinciden</span>
+                    <div class="text-center">
+                        <loading-button [label]="'Actualizar contraseña'" [loading]="updatingPassword"></loading-button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class='col col-md-7 col-12'>
+            <div class="page-area">
+                <h5 class="regular text-center">Plan actual:
+                    <span *ngIf="!userPro" class="bold">Free</span>
+                    <span *ngIf="userPro" class="bold c-secondary">Vilcom Pro</span>
+                </h5>
+                <div *ngIf="!userPro" class="free-plan">
+                    <p class="text-center mb-0">Mejora tu cuenta para acceder a todos los beneficios de Vilcom:</p>
+                    <div class="benefits-list">
+                        <div class="d-flex align-items-center" *ngFor="let t of table; let i = index">
+                            <object class="info-icon" data="assets/icons/info.svg" type="image/svg+xml"></object>
+                            <span>{{t}}</span>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <button class="cta">Actualizar a Vilcom Pro</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<app-modal
+    [name]="'emailchanged'"
+    [showButton]="false"
+    [header]="'Correo electrónico actualizado'"
+    [body]="['Sigue las instrucciones que hemos enviado a tu nuevo correo para continuar usando tu cuenta.']"
+    (open)="openMailChanged = $event"
+    (response)="logout()">
+</app-modal>
+
+<app-footer></app-footer>

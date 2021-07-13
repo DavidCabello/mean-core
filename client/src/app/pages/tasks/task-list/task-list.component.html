@@ -1,0 +1,65 @@
+<div class="task-list">
+
+    <div class="accordion" id="tasklist">
+        <div class="accordion-item task-container" *ngFor="let task of tasklist">
+            <div data-bs-toggle="collapse" [attr.data-bs-target]="'#_' + task._id">
+                <div class="task-header">
+                    <p class="task-title bold">{{task.title}}</p>
+                    <div class="task-options">
+                        <div class="chip task-date" [ngClass]="{'expired': task.expired}">
+                            <img *ngIf="!task.expired" src='assets/icons/clock.svg' class="icon-15">
+                            <img *ngIf="task.expired" src='assets/icons/clock-error.svg' class="icon-15">
+                            <span>{{task.date | calendar}}</span>
+                        </div>
+                        <div class="dropdown">
+                            <button class="icon-button" id="taskMenu" data-bs-toggle="dropdown" aria-expanded="false">
+                                <img src='assets/icons/dots.svg' class="icon-20">
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="taskMenu">
+                              <li *ngIf="type == 'todo'"><a class="dropdown-item" (click)="editTask(task)">Editar</a></li>
+                              <li><a class="dropdown-item" (click)="deleteTask(task)">Eliminar</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="task-description">
+                    <p>{{task.description}}</p>
+                </div>
+                <div class="task-assignment chip-container">
+                    <div *ngIf="task.client_id" class="chip">
+                        <img src='assets/icons/user-tag-solid.svg' class="icon-15">
+                        <span>{{clientNames[task.client_id]}}</span>
+                    </div>
+                    <div class="chip" *ngFor="let id of task.properties_ids">
+                        <img src='assets/icons/home-solid.svg' class="icon-15">
+                        <span>{{propertyTitles[id]}}</span>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="type == 'todo'" [id]="'_' + task._id" class="accordion-collapse collapse" data-bs-parent="#tasklist">
+                <div class="task-actions" [ngClass]="{'justify-content-end': task.action == 'custom'}">
+                    <a *ngIf="task.action != 'custom'" href="" class="chip clickable">
+                        <img src='assets/icons/{{icons[task.action]}}.svg' class="icon-15">
+                        <span>{{actions[task.action]}}</span>
+                    </a>
+                    <div class="state-buttons">
+                        <button class="bordered small" (click)="cancel(task)">Cancelada</button>
+                        <button class="primary small" (click)="complete(task)">Completada</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<task-form [name]="'list' + type" [user]="user" [task]="selectedTask" [edit]="true" [hideButton]="true" [clientList]="[]" [propertyList]="[]" (saved)="load()" (open)="openForm = $event"></task-form>
+<app-modal
+    [name]="'confirmDelete'"
+    [confirmation]="true"
+    [showButton]="false"
+    [static]="false"
+    [header]="'Eliminar tarea'"
+    [body]="['¿Estás seguro que deseas eliminar esta tarea?']"
+    (open)="confirmDelete = $event"
+    (response)="handleDeleteTask($event)">
+</app-modal>

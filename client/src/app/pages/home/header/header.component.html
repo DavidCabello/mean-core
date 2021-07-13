@@ -1,0 +1,16 @@
+<header class="home-header">
+
+    <div class="home-header__logo">
+      <a [routerLink]="['/home']" routerLinkActive="active"  title="logo">
+        <img src="assets/icons/logo.svg" alt="logo">
+      </a>
+    </div>
+
+    <login *ngIf="!user"></login>
+
+    <button routerLink="/resumen" *ngIf="user" class="login-button">
+      <img class="white" src='assets/icons/user.svg' alt=''>
+      <span>{{user?.name | name}}</span>
+    </button>
+
+</header>

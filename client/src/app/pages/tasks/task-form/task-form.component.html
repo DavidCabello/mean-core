@@ -1,0 +1,99 @@
+<button #openButton type='button' class='primary' data-bs-toggle='modal' [attr.data-bs-target]='"#" + name' [hidden]="hideButton">
+    Nueva tarea
+</button>
+<div #base class='modal fade secondary' [id]='name' tabindex='-1' [attr.aria-labelledby]='name + "Label"' aria-hidden='true'>
+    <div class='modal-dialog modal-dialog-centered'>
+        <div class='modal-content'>
+            <div class='modal-body'>
+                <h5 class='modal-title' [id]='name + "Label"'>
+                    <span *ngIf="!edit">Nueva tarea</span>
+                    <span *ngIf="edit">Editar tarea</span>
+                </h5>
+                <form (ngSubmit)="saveTask()" ngNativeValidate>
+                    <div class='modal-message'>
+                        <label class="form-label">Tipo de tarea</label>
+                        <div class="chip-container mb-3">
+                            <label [for]="'call_' + name" class="chip clickable" [ngClass]="{'selected': task.action == 'call'}">Llamada</label>
+                            <input type="radio" name="action" [id]="'call_' + name" [value]="'call'" [(ngModel)]="task.action" hidden>
+                            <label [for]="'wa_' + name" class="chip clickable" [ngClass]="{'selected': task.action == 'wa'}">Whatsapp</label>
+                            <input type="radio" name="action" [id]="'wa_' + name" [value]="'wa'" [(ngModel)]="task.action" hidden>
+                            <label [for]="'email_' + name" class="chip clickable" [ngClass]="{'selected': task.action == 'email'}">Correo electrónico</label>
+                            <input type="radio" name="action" [id]="'email_' + name" [value]="'email'" [(ngModel)]="task.action" hidden>
+                            <label [for]="'properties_' + name" class="chip clickable" [ngClass]="{'selected': task.action == 'properties'}">Enviar inmuebles</label>
+                            <input type="radio" name="action" [id]="'properties_' + name" [value]="'properties'" [(ngModel)]="task.action" hidden>
+                            <label [for]="'custom_' + name" class="chip clickable" [ngClass]="{'selected': task.action == 'custom'}">Personalizado</label>
+                            <input type="radio" name="action" [id]="'custom_' + name" [value]="'custom'" [(ngModel)]="task.action" hidden>
+                        </div>
+                        <mat-form-field appearance="outline">
+                            <mat-label>Título</mat-label>
+                            <input type="text" name="title" [(ngModel)]="task.title" required matInput>
+                        </mat-form-field>
+                        <mat-form-field appearance="outline">
+                            <mat-label>Día</mat-label>
+                            <input type="datetime-local" name="date" [ngModel]="taskDate | date:'yyyy-MM-ddTHH:mm'" (ngModelChange)="taskDate = $event" [min]="today | date:'yyyy-MM-ddTHH:mm'" required matInput>
+                        </mat-form-field>
+                        <label class="chip-container chip-input" [for]="'newclient_' + name">
+                            <span class="container-label">Clientes participantes</span>
+                            <div class="chip chip-times" *ngFor="let id of task.clients_ids">
+                                <span>{{selectedClients[id]}}</span>
+                                <button type="button" class="icon-button">
+                                    <img (click)="removeClient(id)" src='assets/icons/times.svg'>
+                                </button>
+                            </div>
+                            <input #clientSelector type="text" name="newclient" [id]="'newclient_' + name" (input)="addClient($event, clientSelector)" value="No existen clientes" [disabled]="clientList.length == 0" [attr.list]="'clients_' + name" autocomplete="off">
+                            <datalist [id]="'clients_' + name">
+                                <option [value]="client.name" *ngFor="let client of availableClients">
+                            </datalist>
+                        </label>
+                        <label class="chip-container chip-input" [for]="'newproperty_' + name">
+                            <span class="container-label">Inmuebles participantes</span>
+                            <div class="chip chip-times" *ngFor="let id of task.properties_ids">
+                                <span>{{selectedProperties[id]}}</span>
+                                <button type="button" class="icon-button">
+                                    <img (click)="removeProperty(id)" src='assets/icons/times.svg'>
+                                </button>
+                            </div>
+                            <input #propertySelector type="text" name="newproperty" [id]="'newproperty_' + name" (input)="addProperty($event, propertySelector)" value="No existen propiedades" [disabled]="propertyList.length == 0" [attr.list]="'propertyList_' + name" autocomplete="off">
+                            <datalist [id]="'propertyList_' + name">
+                                <option [value]="property.title" *ngFor="let property of availableProperties">
+                            </datalist>
+                        </label>
+                        <mat-form-field appearance="outline">
+                            <mat-label>Detalles</mat-label>
+                            <textarea name="description" [(ngModel)]="task.description" matInput></textarea>
+                        </mat-form-field>
+                        <div  class="form-check form-switch mb-2">
+                            <input class="form-check-input" type="checkbox" [id]="'reminder_' + name" name="reminder" [(ngModel)]="task.reminder" [disabled]="!taskDate">
+                            <label class="form-check-label" [for]="'reminder_' + name">Crear recordatorio</label>
+                        </div>
+                        <div *ngIf="task.reminder" class="reminder">
+                            <div class="d-flex mb-3">
+                                <input class="reminder-input me-3" type="number" name="reminder-quantity" [(ngModel)]="task.notify.quantity" min="1">
+                                <select class="form-select" name="reminder-unit" [(ngModel)]="task.notify.unit">
+                                    <option [ngValue]="'min'">Minutos antes</option>
+                                    <option [ngValue]="'hour'">Horas antes</option>
+                                    <option [ngValue]="'day'">Días antes</option>
+                                    <option [ngValue]="'week'">Semanas antes</option>
+                                </select>
+                            </div>
+                            <div class="d-flex">
+                                <div class="form-check me-3">
+                                    <input class="form-check-input" type="radio" name="reminder-target" [id]="'reminder-vilcom_' + name" value="vilcom" [(ngModel)]="task.notify.target">
+                                    <label class="form-check-label" [for]="'reminder-vilcom_' + name">Notificación</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="reminder-target" [id]="'reminder-email_' + name" value="email" [(ngModel)]="task.notify.target">
+                                    <label class="form-check-label" [for]="'reminder-email_' + name">Correo electrónico</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class='modal-buttons'>
+                        <button #closeForm class="bordered" data-bs-dismiss='modal'>Cancelar</button>
+                        <loading-button [label]="'Guardar'" [loading]="loading"></loading-button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

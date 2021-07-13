@@ -1,0 +1,26 @@
+@import "../../../../assets/scss/base.scss";
+@import "../../../../assets/scss/helpers.scss";
+@import "../../../../assets/scss/components.scss";
+
+.taskboard {
+
+    .page-header {
+        margin-bottom: 0;
+        @include media(xs) {
+            margin-bottom: 1rem;
+        }
+    }
+    .row {
+
+        .col {
+            &:first-child {
+                @include media(small) {
+                    margin-bottom: 1rem;
+                }
+            }
+            .page-area {
+                height: 100%;
+            }
+        }
+    }
+}

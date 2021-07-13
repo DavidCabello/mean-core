@@ -1,4 +1,6 @@
 const User = require('../models/user.model');
+const Agency = require('../models/agency.model');
+const Invitation = require('../models/invitation.model');
 const nodemailer = require("nodemailer");
 const { google } = require('googleapis');
 const OAuth2 = google.auth.OAuth2;
@@ -16,7 +18,7 @@ oauth2Client.setCredentials({
 
 const accessToken = oauth2Client.getAccessToken();
 
-const baseUrl = 'https://mean-core.herokuapp.com'
+const baseUrl = 'http://localhost:4200'
 
 mailer.send = async (req, res) => {
     try {
@@ -60,7 +62,7 @@ mailer.forgotenPassword = async (req, res) => {
   try {
     const user = await User.findOne({email: req.body.email});
     const encrypted = await Buffer.from(JSON.stringify(user)).toString('base64');
-    const response = `${baseUrl}/forgetPassword?encoded=${encrypted}`;
+    const response = `${baseUrl}/restablecer?encoded=${encrypted}`;
       const smtpTransport = nodemailer.createTransport({
         service: 'gmail',
         auth:{
@@ -76,7 +78,7 @@ mailer.forgotenPassword = async (req, res) => {
       smtpTransport.sendMail({
         from: 'contacto.goldensub@gmail.com',
         to: req.body.email,
-        subject: 'Recuperación de contraseña',
+        subject: 'Recuperación de contraseña - Vilcom',
         html: `
         <!DOCTYPE html>
         <html>
@@ -88,39 +90,26 @@ mailer.forgotenPassword = async (req, res) => {
           <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
           <style>
           body {
-            background: #29637D;
             font-family: 'Roboto', sans-serif;
           }
-          .container {
-            margin: 20%;
-            background: white;
-            padding-bottom: 10%;
-          }
-    
           h1 {
             padding-right: 10%;
             padding-left: 10%;
-            
+            color: #1F5A76;
           }
     
           p {
             padding-right: 10%;
             padding-left: 10%;
           }
-    
-          a {
-            padding-right: 10%;
-            padding-left: 10%;
-          }
           </style>
         </head>
         <body>
-          <div class="container">
-              <img src="${baseUrl}/assets/icons/logo.svg" style="padding-left: 10%; padding-top: 10%">
-            <h1 align="center">Contraseña olvidada</h1>
-            <p align="justify">Recibimos tu solicitud para recuperar tu contraseña, haz clic <a href="${response}">aquí</a> para restablecerla.</p>
+          <div>
+            <h1>Contraseña de Vilcom olvidada</h1>
+            <p>Recibimos tu solicitud para recuperar tu contraseña, haz clic <a href="${response}">aquí</a> para restablecerla.</p>
     
-            <p align="justify">Si tú no solicitaste este cambio, haz caso omiso de este mensaje.</p>
+            <p>Si tú no solicitaste este cambio, haz caso omiso de este mensaje.</p>
           </div>
         </body>
         </html>
@@ -129,6 +118,7 @@ mailer.forgotenPassword = async (req, res) => {
         if(success){
           res.json('sent')
         }else if (err){
+          console.log(err)
           res.json('error')
         }
       });
@@ -138,11 +128,15 @@ mailer.forgotenPassword = async (req, res) => {
     }
 };
 
-mailer.validate = async (req, res) => {
+mailer.verify = async (req, res) => {
   try {
     const user = await User.findOne({email: req.body.email});
+    if(!user) {
+      res.json('unexisting user')
+      res.end()
+    }
     const encrypted = await Buffer.from(JSON.stringify(user)).toString('base64');
-    const response = `https://${baseUrl}/validate?encoded=${encrypted}`;
+    const response = `${baseUrl}/verificar?encoded=${encrypted}`;
 
       const smtpTransport = nodemailer.createTransport({
         service: 'gmail',
@@ -158,8 +152,8 @@ mailer.validate = async (req, res) => {
     
       smtpTransport.sendMail({
         from: 'noreply@goldensub.com',
-        to: req.body.email,
-        subject: 'Account validation',
+        to: user.email,
+        subject: 'Verificación de la cuenta - Vilcom',
         html: `
         <!DOCTYPE html>
         <html>
@@ -171,31 +165,25 @@ mailer.validate = async (req, res) => {
           <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
           <style>
           body {
-            background: #fff;
             font-family: 'Roboto', sans-serif;
-          }
-          .container {
-            padding-bottom: 10%;
           }
           h1 {
             padding-right: 10%;
             padding-left: 10%;
+            color: #1F5A76;
           }
           p {
             padding-right: 10%;
             padding-left: 10%;
           }
-          svg {
-            padding-left: 10%;
-          }
           </style>
         </head>
         <body>
-          <div class="container">
-            <h1>Verify your register</h1>
-            <p align="justify">You can start using your account by clicking <a href="${response}">here</a></p>
+          <div>
+            <h1>Verifica tu cuenta de Vilcom</h1>
+            <p>Para comenzar a usar tu cuenta de Vilcom haz click <a href="${response}">aquí</a></p>
     
-            <p align="justify">If you did not make this request, please ignore this email.</p>
+            <p>Si no has solicitado este correo, por favor ignora este mensaje.</p>
           </div>
         </body>
         </html>
@@ -210,6 +198,92 @@ mailer.validate = async (req, res) => {
       
     } catch (error) {
       res.json(error);
+    }
+};
+
+mailer.invite = async (req, res) => {
+  try {
+    const user = req.user
+    const invitation = await new Invitation(req.body)
+    const member = await User.findOne({$and: [
+      {email: invitation.email},
+      {agency_id: invitation.agency_id}
+    ]})
+    if(member) {
+      res.json({message: 'member'})
+    } else {
+      const existing = await Invitation.findOne({$and: [
+        {agency_id: invitation.agency_id},
+        {email: invitation.email}
+      ]})
+      if(existing) await Invitation.findOneAndRemove({_id: existing._id})
+      const recipient = await invitation.save()
+      const agency = await Agency.findById(req.body.agency_id)
+  
+      const encrypted = await Buffer.from(JSON.stringify(recipient)).toString('base64');
+      const response = `${baseUrl}/inmobiliaria/invitacion?encoded=${encrypted}`;
+  
+      const smtpTransport = nodemailer.createTransport({
+        service: 'gmail',
+        auth:{
+          type: 'OAuth2',
+          user: 'contacto.goldensub@gmail.com', 
+          clientId: process.env.OAUTH_CLIENT_ID,
+          clientSecret: process.env.OAUTH_CLIENT_SECRET,
+          refreshToken: process.env.OAUTH_REFRESH_TOKEN,
+          accessToken: accessToken
+        }
+      });
+      
+      smtpTransport.sendMail({
+        from: 'noreply@goldensub.com',
+        to: recipient.email,
+        subject: `${user.name} te ha invitado a ${agency.name} - Vilcom`,
+        html: `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <meta charset="utf-8" />
+          <meta http-equiv="X-UA-Compatible" content="IE=edge">
+          <title>Forget password</title>
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+          <style>
+          body {
+            font-family: 'Roboto', sans-serif;
+          }
+          h1 {
+            padding-right: 10%;
+            padding-left: 10%;
+            color: #1F5A76;
+          }
+          p {
+            padding-right: 10%;
+            padding-left: 10%;
+          }
+          </style>
+        </head>
+        <body>
+          <div>
+            <h1>Haz recibido una invitación para colaborar en Vilcom</h1>
+            <p>${user.name}(${user.email}) te ha invitado a formar parte de ${agency.name}</p>
+            <p>Para ver la invitación haz click <a href="${response}">aquí</a></p>
+    
+            <p>Si crees que has recibido este correo por error, por favor ignora este mensaje.</p>
+          </div>
+        </body>
+        </html>
+        `
+      },(err, success) => {
+        if(success){
+          res.json({message: 'message sent', invitation: recipient})
+        }else if (err){
+          res.json({message: 'error', err})
+        }
+      });
+    }
+    } catch (error) {
+      res.json({message: 'error', error});
     }
 };
 

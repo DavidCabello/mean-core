@@ -34,9 +34,14 @@ app.options('*', cors());
 app.use(bodyParser.json());
 
 // routes
-app.use('/api/users', require('./routes/users.route'));
 app.use('/api/mailer', require('./routes/mailer.route'));
 app.use('/api/file', require('./routes/file.route'));
+app.use('/api/users', require('./routes/users.route'));
+app.use('/api/agency', require('./routes/agency.route'));
+app.use('/api/roles', require('./routes/roles.route'));
+app.use('/api/invitation', require('./routes/invitation.route'));
+app.use('/api/task', require('./routes/task.route'));
+app.use('/api/notifications', require('./routes/notifications.route'));
 
 // start server
 app.get('*', (req, res) => {

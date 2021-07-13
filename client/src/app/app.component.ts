@@ -7,7 +7,7 @@ import { UserService } from './services/user.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'angular-core';
+  title = 'Vilcom';
 
   constructor(private userService: UserService) { }
 
@@ -18,7 +18,7 @@ export class AppComponent {
   getUser() {
     if (localStorage.getItem('token')) {
       this.userService.logged().subscribe(user => {
-        this.userService.setUser(user);
+        if(user != 'not logged in') this.userService.setUser(user)
       }, error => {
         
       }); 

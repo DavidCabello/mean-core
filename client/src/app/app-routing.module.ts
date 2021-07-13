@@ -1,22 +1,36 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-//ROUTES
-import { HomeComponent } from './pages/home/home.component';
-import { RegisterComponent } from './pages/register/register.component';
-import { ProfileComponent } from './pages/profile/profile.component';
-
 //GUARDS
 import { AuthGuard } from './guards/auth.guard';
-import { LoginComponent } from './pages/login/login.component';
 
 const routes: Routes = [
-  {path: 'home', component: HomeComponent},
-  {path: 'login', component: LoginComponent},
-  {path: 'register', component: RegisterComponent},
-  {path: 'profile', component: ProfileComponent, canActivate: [AuthGuard]},
-  {path:'', redirectTo: '/home', pathMatch: 'full'},
-  {path:'**', redirectTo: '/home', pathMatch: 'full'}
+  {
+    path: '',
+    loadChildren: () => import('./pages/home/home.module').then(m => m.HomeModule)
+  },
+  {
+    path: 'resumen',
+    loadChildren: () => import('./pages/dashboard/dashboard.module').then(m => m.DashboardModule)
+  },
+  {
+    path: 'cuenta',
+    loadChildren: () => import('./pages/profile/profile.module').then(m => m.ProfileModule)
+  },
+  {
+    path: 'inmobiliaria',
+    loadChildren: () => import('./pages/agency/agency.module').then(m => m.AgencyModule)
+  },
+  {
+    path: 'tareas',
+    loadChildren: () => import('./pages/tasks/tasks.module').then(m => m.TasksModule)
+  },
+  // {path: '', component: HomeComponent},
+  // {path: 'login', component: LoginComponent},
+  // {path: 'signup', component: RegisterComponent},
+  // {path: 'profile', component: ProfileComponent, canActivate: [AuthGuard]},
+  {path: '', redirectTo: '/', pathMatch: 'full'},
+  {path: '**', redirectTo: '/', pathMatch: 'full'}
 ];
 
 @NgModule({

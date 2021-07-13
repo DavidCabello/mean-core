@@ -2,15 +2,18 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const { Schema } = mongoose;
 
-const validRoles = ['user', 'admin'];
 
 const userSchema = new Schema({
-  name: String,
-  phone: String,
+  agency_id: Schema.Types.ObjectId,
+  permissions_id: Schema.Types.ObjectId,
   email: {type: String, required: true},
   password: {type: String, required: true},
-  role: {type: String, enum: validRoles},
-  validated: {type: Boolean, default: false}
+  pro_expiration: Date,
+  admin: {type: Boolean, default: false},
+  verified: {type: Boolean, default: false},
+  name: String,
+  phone: String,
+  properties_saved: Schema.Types.Mixed
 }, {timestamps: true});
 
 userSchema.methods.hashPassword = async (password) => {

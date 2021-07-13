@@ -1,0 +1,45 @@
+<home-header></home-header>
+
+<main class="restore">
+    <div class="restore-content">
+        <h5>Restablecer contraseña</h5>
+        <form (ngSubmit)="restore()" ngNativeValidate>
+            <mat-form-field appearance="outline">
+                <mat-label>Nueva contraseña</mat-label>
+                <input [type]="hidePassword ? 'password' : 'text'" [(ngModel)]="password" name="password" required matInput>
+                <button type="button" mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                    <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+            </mat-form-field>
+            <mat-form-field appearance="outline" [ngClass]="{'input-error': verificationError}">
+                <mat-label>Vuelve a escribir la contraseña</mat-label>
+                <input [type]="hideVerification ? 'password' : 'text'" name="passwordVerification" [(ngModel)]="verification" (input)="verifyPass()" required matInput>
+                <button type="button" mat-icon-button matSuffix (click)="hideVerification = !hideVerification" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                    <mat-icon>{{hideVerification ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+            </mat-form-field>
+            <span class="input-error" *ngIf="error">Las contraseñas no coinciden</span>
+            <loading-button [label]="'Guardar'" [loading]="updating"></loading-button>
+        </form>
+    </div>
+</main>
+
+<app-modal
+    [name]="'success'"
+    [showButton]="false"
+    [header]="'Restablecer contraseña'"
+    [body]="['Tu contraseña se ha actualizado correctamente.']"
+    (open)="openSuccess = $event"
+    (response)="returnHome()">
+</app-modal>
+
+<app-modal
+    [name]="'error'"
+    [showButton]="false"
+    [header]="'Restablecer contraseña'"
+    [body]="['Ha ocurrido un error, por favor vuelve a intentarlo.']"
+    (open)="openError = $event"
+    (response)="reload()">
+</app-modal>
+
+<app-footer></app-footer>

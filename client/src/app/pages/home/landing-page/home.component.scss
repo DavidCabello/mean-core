@@ -1,0 +1,262 @@
+@import "../../../../assets/scss/base.scss";
+@import "../../../../assets/scss/helpers.scss";
+@import "../../../../assets/scss/components.scss";
+
+.home{
+
+    .section-header {
+        text-align: center;
+        font-family: $text-regular;
+
+        @include media(small) {
+            font-size: 1.5rem;
+        }
+        span {
+            font-family: $text-bold;
+        }
+    }
+    .underline {
+        width: fit-content;
+        margin: auto;
+        padding-bottom: 10px;
+        border-bottom: 2px solid $color-secondary;
+    }
+    &-banner {
+        position: relative;
+        height: 60vh;
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            max-width: 100%;
+        }
+        .home-header {
+            position: absolute;
+            top: 100px;
+            left: 60px;
+            text-align: center;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            
+            h1 {
+                font-size: 2.25rem;
+                font-family: $text-regular;
+                margin-bottom: 1rem;
+                span {
+                    font-family: $text-bold;
+                }
+                @include media(medium) {
+                    font-size: 1.8rem;
+                }
+                @include media(small) {
+                    font-size: 1.5rem;
+                }
+            }
+            .cta {
+                
+            }
+            @include media(medium) {
+                top: 110px;
+                left: 45px;
+            }
+            @include media(small) {
+                top: 120px;
+                left: 30px;
+            }
+            @include media(xs) {
+                width: 100%;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                top: 0;
+                left: 0;
+                padding: 15px;
+            }
+        }
+    }
+    &-services {
+        padding: 50px;
+        text-align: center;
+        @include media(small) {
+            padding: 50px 20px;
+        }
+
+        h2 {
+
+        }
+        .services-grid {
+            padding: 50px 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-right: -15px;
+            margin-left: -15px;
+
+            .card-container {
+                padding: 15px;
+                flex: 0 0 20%;
+                max-width: 20%;
+                @include media(medium) {
+                    flex: 0 0 25%;
+                    max-width: 25%;
+                }
+                @include media(small) {
+                    flex: 0 0 calc(100% / 3);
+                    max-width: calc(100% / 3);
+                }
+                @include media(xs) {
+                    flex: 0 0 50%;
+                    max-width: 50%;
+                    padding: 10px;
+                }
+
+                .service-card {
+                    border-radius: 30px;
+                    box-shadow: 0px 3px 20px -5px #cccccc;
+                    display: flex;
+                    flex-direction: column;
+                    padding: 15px;
+                    align-items: center;
+                    text-align: center;
+                    justify-content: flex-start;
+                    height: 100%;
+                    background: white;
+                    transition: transform 0.5s, box-shadow 0.5s;
+                    &:hover {
+                        transform: scale(1.1);
+                        box-shadow: 0px 0px 10px -5px #cccccc;
+                    }
+    
+                    img {
+                        width: 70%;
+                        margin-bottom: 35px;
+                        object-fit: contain;
+                    }
+                    h5 {
+                        font-family: $text-bold;
+                        text-transform: uppercase;
+                        font-size: 1.125rem;
+                        color: #F7A633;
+                        margin-bottom: 1rem;
+                    }
+                    span {
+                        // font-family: $text-montserrat;
+                    }
+                }
+            }
+        }
+    }
+    &-plans {
+        padding: 0 50px 50px;
+        @include media(small) {
+            padding: 0 20px 50px;
+        }
+        .section-header {
+            margin-bottom: 6rem;
+            @include media(small) {
+                margin-bottom: 3rem;
+            }
+        }
+        table.home-benefits {
+            margin: auto;
+
+            .info-icon {
+                margin-right: 10px;
+                width: 1.5rem;
+            }
+            thead {
+                font-size: 1.5rem;
+                button {
+                    font-size: 1rem;
+                }
+
+                tr {
+
+                    th {
+
+                    }
+                }
+            }
+            tbody {
+
+                tr {
+
+                    td {
+                        text-align: center;
+                        border-right: 1px solid #E2E2E2;
+                        &:last-child {
+                            border: none;
+                        }
+                    }
+                    td:first-child {
+                        text-align: left;
+                        div {
+                            display: flex;
+                            align-items: center;
+                        }
+                    }
+                    &:nth-child(odd) {
+                        background: #F4F4F4;
+                    }
+                }
+            }
+            tr {
+
+                th, td {
+                    padding: 10px;
+                    
+                }
+            }
+        }
+        nav.home-benefits {
+            margin-bottom: 15px;
+            
+            a {
+                width: 50%;
+                display: flex;
+                justify-content: center;
+                font-size: 1.5rem;
+                color: $color-primary;
+                &.secondary {
+                    color: $color-secondary
+                }
+                &.active {
+                    color: $color-primary;
+                    &.secondary {
+                        color: $color-secondary
+                    }
+                }
+            }
+        }
+        .tab-pane {
+
+            button {
+                width: 100%;
+            }
+        }
+        .benefits-list {
+            display: flex;
+            flex-direction: column;
+            padding: 15px 0;
+            
+            div {
+                display: flex;
+                align-items: center;
+                padding: 5px 0;
+                object {
+                    margin: 0 5px;
+                    max-width: 10%;
+                }
+                span {
+                    display: flex;
+                    align-items: center;
+                }
+            }
+        }
+    }
+}

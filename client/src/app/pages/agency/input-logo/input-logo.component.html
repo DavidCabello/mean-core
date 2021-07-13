@@ -1,0 +1,12 @@
+<label class="logo-container" [ngClass]="{'editable': editable}" for="logo-input">
+    <input *ngIf="editable" type="file" name="file" id="logo-input" (change)="uploadLogo($event)" accept="image/*" hidden>
+    <img *ngIf="url" [src]="url" class="logo-img">
+    <div *ngIf="!url" class="logo-placeholder">
+        <img src='assets/icons/plus.svg' class="icon-20 m-2">
+        <span>Sube tu logo</span>
+    </div>
+    <div *ngIf="url && editable" class="upload-logo">
+        <img src='assets/icons/arrow-up.svg' class="icon-20 m-2">
+        <span>Cambiar logo</span>
+    </div>
+</label>

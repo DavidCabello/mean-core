@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="Grupo_818" data-name="Grupo 818" transform="translate(-1660.689 -589.937)">
+    <g id="loupe" transform="translate(1660.689 589.934)">
+      <g id="Grupo_817" data-name="Grupo 817" transform="translate(0 0.003)">
+        <path id="Trazado_1567" data-name="Trazado 1567" d="M23.707,22.3l-6.825-6.825a9.518,9.518,0,1,0-1.414,1.414l6.825,6.825A1,1,0,1,0,23.707,22.3ZM9.5,17A7.5,7.5,0,1,1,17,9.5,7.508,7.508,0,0,1,9.5,17Z" transform="translate(0 -0.003)" fill="#1f5a76"/>
+      </g>
+    </g>
+    <path id="map-marker-alt-solid" d="M3.724,10.845C.583,6.291,0,5.824,0,4.151a4.151,4.151,0,0,1,8.3,0c0,1.674-.583,2.141-3.724,6.694a.519.519,0,0,1-.853,0ZM4.151,5.88A1.729,1.729,0,1,0,2.421,4.151,1.729,1.729,0,0,0,4.151,5.88Z" transform="translate(1666.171 594.08)" fill="#1f5a76"/>
+  </g>
+</svg>

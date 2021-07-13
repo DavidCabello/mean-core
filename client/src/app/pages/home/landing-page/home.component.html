@@ -1,0 +1,105 @@
+<home-header></home-header>
+<page-loader [display]="loader"></page-loader>
+
+<main class="home">
+    <div class="home-banner">
+        <img src='assets/png/home.png' alt='banner'>
+        <div class="home-header" data-aos="fade-up">
+            <h1>Te respaldamos en todo<br><span>el proceso de comercialización</span></h1>
+            <button class="cta" (click)="register.nativeElement.click()" data-aos="fade-up">Crear cuenta</button>
+        </div>
+    </div>
+    <div class="home-services">
+        <h2 class="section-header underline" data-aos="fade-up">
+            Nuestras <span>Herramientas</span>
+        </h2>
+        <div class="services-grid">
+            <div class="card-container" *ngFor="let s of cards">
+                <div class="service-card" data-aos="fade-up">
+                    <img src='assets/png/{{s.icon}}.png' alt='Ícono'>
+                    <h5>{{s.header}}</h5>
+                    <span>{{s.text}}</span>
+                </div>
+            </div>
+        </div>
+        <button class="cta" (click)="register.nativeElement.click()" data-aos="fade-up">Crear cuenta</button>
+    </div>
+    <div class="home-plans">
+        <h2 class="section-header" data-aos="fade-up">
+            Haz de Vilcom tu aliado y <span>empieza a publicar Gratis</span><br>
+            <small class="underline">Conoce nuestros planes</small>
+        </h2>
+        <div class="table-responsive full" data-aos="fade-up">
+            <table class="home-benefits">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>
+                            <div class="d-flex flex-column align-items-center">
+                                <span>Vilcom Free</span>
+                                <button class="primary" (click)="register.nativeElement.click()">Comenzar</button>
+                            </div>
+                        </th>
+                        <th class="c-secondary">
+                            <div class="d-flex flex-column align-items-center">
+                                <span>Vilcom Pro</span>
+                                <button class="primary b-secondary no-wrap" [routerLink]="['/simulador']">Ver plan</button>
+                            </div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let t of table; let i = index">
+                        <td>
+                            <div>
+                                <object class="info-icon" data="assets/icons/info.svg" type="image/svg+xml"></object>
+                                {{t}}
+                            </div>
+                        </td>
+                        <td><object *ngIf="i < 8" data="assets/icons/circle-check-primary.svg" type="image/svg+xml"></object></td>
+                        <td><object data="assets/icons/circle-check-secondary.svg" type="image/svg+xml"></object></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td><button class="primary" (click)="register.nativeElement.click()">Comenzar</button></td>
+                        <td><button class="primary b-secondary no-wrap" [routerLink]="['/simulador']">Ver plan</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="resBlock">
+            <nav class="home-benefits">
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                  <a class="nav-link active" id="nav-free-tab" data-bs-toggle="tab" data-bs-target="#nav-free" role="tab" aria-controls="nav-free" aria-selected="true">Vilcom Free</a>
+                  <a class="nav-link c-secondary" id="nav-pro-tab" data-bs-toggle="tab" data-bs-target="#nav-pro" role="tab" aria-controls="nav-pro" aria-selected="false">Vilcom Pro</a>
+                </div>
+            </nav>
+            <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="nav-free" role="tabpanel" aria-labelledby="nav-free-tab">
+                <button class="primary" (click)="register.nativeElement.click()">Comenzar</button>
+                <div class="benefits-list">
+                    <div class="d-flex align-items-center" *ngFor="let t of table | slice:0:8; let i = index">
+                        <object class="info-icon" data="assets/icons/info.svg" type="image/svg+xml"></object>
+                        <span>{{t}}</span>
+                    </div>
+                </div>
+                <button class="primary" (click)="register.nativeElement.click()">Comenzar</button>
+            </div>
+            <div class="tab-pane fade" id="nav-pro" role="tabpanel" aria-labelledby="nav-pro-tab">
+                <button class="primary b-secondary no-wrap" [routerLink]="['/simulador']">Ver plan</button>
+                <div class="benefits-list">
+                    <div class="d-flex align-items-center" *ngFor="let t of table; let i = index">
+                        <object class="info-icon" data="assets/icons/info.svg" type="image/svg+xml"></object>
+                        <span>{{t}}</span>
+                    </div>
+                </div>
+                <button class="primary b-secondary no-wrap" [routerLink]="['/simulador']">Ver plan</button>
+            </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- <app-register (open)="register = $event"></app-register> -->
+
+<app-footer></app-footer>

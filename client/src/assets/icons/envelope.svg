@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="352" viewBox="0 0 512 352">
+  <g id="correo-electronico" transform="translate(0 -80)">
+    <g id="Grupo_864" data-name="Grupo 864">
+      <g id="Grupo_863" data-name="Grupo 863">
+        <path id="Trazado_1579" data-name="Trazado 1579" d="M339.392,258.624,512,367.744V144.9Z" fill="#1f5a76"/>
+      </g>
+    </g>
+    <g id="Grupo_866" data-name="Grupo 866">
+      <g id="Grupo_865" data-name="Grupo 865">
+        <path id="Trazado_1580" data-name="Trazado 1580" d="M0,144.9V367.744l172.608-109.12Z" fill="#1f5a76"/>
+      </g>
+    </g>
+    <g id="Grupo_868" data-name="Grupo 868">
+      <g id="Grupo_867" data-name="Grupo 867">
+        <path id="Trazado_1581" data-name="Trazado 1581" d="M480,80H32C16.032,80,3.36,91.9.96,107.232L256,275.264,511.04,107.232C508.64,91.9,495.968,80,480,80Z" fill="#1f5a76"/>
+      </g>
+    </g>
+    <g id="Grupo_870" data-name="Grupo 870">
+      <g id="Grupo_869" data-name="Grupo 869">
+        <path id="Trazado_1582" data-name="Trazado 1582" d="M310.08,277.952,264.8,307.776a16.068,16.068,0,0,1-17.6,0L201.92,277.92,1.024,404.992C3.488,420.192,16.1,432,32,432H480c15.9,0,28.512-11.808,30.976-27.008Z" fill="#1f5a76"/>
+      </g>
+    </g>
+  </g>
+</svg>

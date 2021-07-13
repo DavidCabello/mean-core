@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="63.83" height="59.34" viewBox="0 0 63.83 59.34">
+  <g id="check-square" transform="translate(0 -4.565)">
+    <g id="Grupo_254" data-name="Grupo 254" transform="translate(0 4.565)">
+      <g id="Grupo_253" data-name="Grupo 253">
+        <path id="Trazado_447" data-name="Trazado 447" d="M52.493,61.525a2.282,2.282,0,0,0-2.282,2.282V86.63a2.282,2.282,0,0,1-2.282,2.282H6.847A2.282,2.282,0,0,1,4.565,86.63V40.984A2.282,2.282,0,0,1,6.847,38.7H34.235a2.282,2.282,0,1,0,0-4.565H6.847A6.847,6.847,0,0,0,0,40.984V86.63a6.847,6.847,0,0,0,6.847,6.847H47.929a6.847,6.847,0,0,0,6.847-6.847V63.807A2.282,2.282,0,0,0,52.493,61.525Z" transform="translate(0 -34.137)" fill="#1f5a76"/>
+      </g>
+    </g>
+    <g id="Grupo_819" data-name="Grupo 819" transform="translate(183.289 -392.302) rotate(45)">
+      <line id="Línea_193" data-name="Línea 193" x2="48.819" transform="translate(197.559 371.5) rotate(90)" fill="none" stroke="#1f5a76" stroke-linecap="round" stroke-width="5"/>
+      <line id="Línea_207" data-name="Línea 207" x2="17.059" transform="translate(180.5 420.319)" fill="none" stroke="#1f5a76" stroke-linecap="round" stroke-width="5"/>
+    </g>
+  </g>
+</svg>

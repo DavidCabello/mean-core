@@ -1,0 +1,20 @@
+<home-header></home-header>
+
+<main class="verify">
+    <div *ngIf="!error && !verified" class="verifying">
+        <div class="spinner-border"></div>
+        <h3>Espera un momento mientras verificamos tu cuenta.</h3>
+    </div>
+    <div *ngIf="!error && verified" class="verified">
+        <mat-icon>task_alt</mat-icon>
+        <h3>Hemos verificado tu cuenta</h3>
+        <p>Inicia sesión para comenzar a utilizar Vilcom</p>
+        <button class="primary" (click)="returnHome()">Regresar al inicio</button>
+    </div>
+    <div *ngIf="error" class="verification-error">
+        <mat-icon class="error">error_outline</mat-icon>
+        <h3>Ha ocurrido un error</h3>
+    </div>
+</main>
+
+<app-footer></app-footer>

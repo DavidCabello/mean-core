@@ -1,0 +1,71 @@
+@import "../../../../assets/scss/base.scss";
+@import "../../../../assets/scss/helpers.scss";
+@import "../../../../assets/scss/components.scss";
+
+.header{
+	position: relative;
+	width: 100%;
+	padding: 20px;
+	z-index: 100;
+	@include media(xs) {
+		padding: 10px;
+	}
+
+	&-container {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 20px 30px;
+		box-shadow: $shadow;
+		border-radius: 10px;
+		@include media(xs) {
+			padding: 20px 15px;
+		}
+
+		.header-logo {
+			position: relative;
+			width: 150px;
+			@include media(small){
+			  width: 35%;
+			}
+	
+			img {
+				width: 100%;
+			}
+		}
+		.right-content {
+			display: flex;
+			align-items: center;
+
+			.bordered {
+				font-family: 'Helvetica Bold';
+				border-radius: 10px;
+				padding: 0.3rem 0.8rem;
+				border: none;
+			}
+			.menu-icon {
+				border-radius: 50%;
+				height: 38px;
+				width: 38px;
+				align-items: center;
+				justify-content: center;
+				padding: 0;
+				transition: background 0.3s ease-out;
+				&:hover {
+					background: $color-accent;
+				}
+
+				&.hamburger-button {
+					display: flex;
+				}
+
+				img {
+					@include media(xs) {
+						width: 24px;
+					}
+				}
+			}
+		}
+	}
+		
+}

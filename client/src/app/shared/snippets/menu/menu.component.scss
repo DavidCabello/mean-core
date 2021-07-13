@@ -1,0 +1,111 @@
+@import "../../../../assets/scss/base.scss";
+@import "../../../../assets/scss/helpers.scss";
+@import "../../../../assets/scss/components.scss";
+
+.menu-background {
+	position: fixed;
+	width: 100%;
+	height: 100vh;
+	z-index: 190;
+	top: 0;
+	left: 0;
+	display: none;
+
+	.backdrop {
+		z-index: 195;
+		width: 100%;
+		height: 100vh;
+		backdrop-filter: blur(4px) brightness(1.6);
+	}
+}
+.menu {
+	position: fixed;
+	width: 300px;
+	height: 100vh;
+	top: 0;
+	right: 0;
+	background: $color-text-light;
+	transform: translateX(100%);
+	-webkit-transform: translateX(100%);
+	-moz-transform: translateX(100%);
+	-ms-transform: translateX(100%);
+	z-index: 200;
+	@include media(xs) {
+		height: 100%;
+	}
+
+	.close-button {
+		padding: 20px;
+	}
+
+	.menu-logo {
+		display: block;
+		width: 100%;
+		text-align: center;
+		padding: 30px 0;
+
+		img {
+			width: 200px;
+		}
+	}
+
+	.menu-nav {
+		margin-bottom: 50px;
+
+		.menu-element {
+			text-decoration: none;
+			// font-size: 1.25rem;
+			display: flex;
+			align-items: center;
+			padding: 10px 50px;
+			transition: background 0.3s, padding 0.3s;
+			&-res {
+				display: none;
+				@include media(small) {
+					display: flex;;
+				}
+			}
+			img {
+				width: 24px;
+				object-fit: contain;
+				margin-right: 10px;
+			}
+			&:hover {
+				background: $color-divider;
+				padding-left: 60px;
+				border-left: 3px solid;
+			}
+			&.active {
+				background: $color-accent;
+				font-family: $text-bold;
+				&:hover {
+					background: $color-accent;
+					padding-left: 50px;
+					border: none;
+				}
+			}
+		}
+	}
+	.pro-button {
+		text-align: center;
+		
+		.cta {
+			font-size: 0.8rem;
+		}
+	}
+	.logout {
+		cursor: pointer;
+		position: absolute;
+		bottom: 0;
+		right: 0;
+		padding: 20px;
+		font-size: 0.9rem;
+
+		img {
+			width: 20px;
+			object-fit: contain;
+			margin-right: 10px;
+		}
+	}
+
+}

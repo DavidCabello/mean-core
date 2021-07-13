@@ -27,8 +27,8 @@ export class UserService {
     return this.http.post(`${environment.apiURL}/users/login`, user);
   }
 
-  validate(encoded) {
-    return this.http.get(`${environment.apiURL}/users/validate?encoded=${encoded}`);
+  verify(encoded) {
+    return this.http.get(`${environment.apiURL}/users/verify?encoded=${encoded}`);
   }
 
   logged() {
@@ -56,19 +56,27 @@ export class UserService {
   }
 
   resetPassword(password, encoded) {
-    return this.http.post(`${environment.apiURL}/users/forgot?encoded=${encoded}`, password);
+    return this.http.post(`${environment.apiURL}/users/forgot?encoded=${encoded}`, {password});
   }
 
   resetPasswordId(password, id) {
-    return this.http.post(`${environment.apiURL}/users/forgot?id=${id}`, password);
+    return this.http.post(`${environment.apiURL}/users/forgot?id=${id}`, {password});
   }
 
-  updatePassword(id, password){
-    return this.http.put(`${environment.apiURL}/users/updatePass`, {password, id});
+  updatePassword(id, password, newPassword){
+    return this.http.put(`${environment.apiURL}/users/updatePass`, {password, newPassword, id});
   }
 
   delete(id) {
     return this.http.delete(`${environment.apiURL}/users/delete/${id}`);
+  }
+
+  acceptInvitation(invitation) {
+    return this.http.put(`${environment.apiURL}/users/acceptinvitation`, invitation)
+  }
+
+  removeFromAgency(id) {
+    return this.http.put(`${environment.apiURL}/users/removeagency`, {id})
   }
 
 }

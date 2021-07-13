@@ -1,0 +1,23 @@
+<header class="header">
+  <div class="header-container">
+    <div class="header-logo">
+      <a [routerLink]="['/']"  title="logo">
+        <img src="assets/icons/logo-blue.svg" alt="logo">
+      </a>
+    </div>
+
+    <div class="right-content">
+      <button class="bordered me-2 full">Buscar inmuebles</button>
+      <button class="bordered full">Clientes</button>
+      <a class="menu-icon resFlex">
+        <img src='assets/icons/search-marker.svg'>
+      </a>
+      <notifications></notifications>
+      <a class="menu-icon hamburger-button" (click)="openMenu.nativeElement.click()">
+        <img src='assets/icons/menu.svg'>
+      </a>
+    </div>
+  </div>
+</header>
+
+<app-menu (handler)="openMenu = $event"></app-menu>

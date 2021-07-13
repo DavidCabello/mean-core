@@ -1,0 +1,162 @@
+<button #openButton type='button' class='login-button' data-bs-toggle='modal' data-bs-target='#loginModal' [hidden]="!showButton">
+    <img class="white" src='assets/icons/user.svg' alt=''>
+    <span>Iniciar sesión</span>
+</button>
+<div #base class='modal fade secondary' id='loginModal' tabindex='-1' aria-labelledby='loginModalLabel' aria-hidden='true'>
+    <div class='modal-dialog modal-dialog-centered'>
+        <div class='modal-content'>
+            <div class='modal-body'>
+                <!-- <h5 class='modal-title' id='loginModalLabel'></h5> -->
+                <button #closeBase type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close' hidden></button>
+                <nav>
+                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                        <button class="nav-link active" id="nav-login-tab" data-bs-toggle="tab" data-bs-target="#nav-login" type="button" role="tab" aria-controls="nav-login" aria-selected="true">Iniciar sesión</button>
+                        <button class="nav-link" id="nav-signup-tab" data-bs-toggle="tab" data-bs-target="#nav-signup" type="button" role="tab" aria-controls="nav-signup" aria-selected="false">Registrarme</button>
+                    </div>
+                </nav>
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="tab-pane fade show active" id="nav-login" role="tabpanel" aria-labelledby="nav-login-tab">
+                        <form (ngSubmit)="login()" ngNativeValidate>
+                            <div class='modal-message text-center tab-first'>
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Correo electrónico</mat-label>
+                                    <input type="email" [(ngModel)]="user.email" name="email" required matInput>
+                                </mat-form-field>
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Contraseña</mat-label>
+                                    <input [type]="hideLoginPassword ? 'password' : 'text'" [(ngModel)]="user.password" name="password" required matInput>
+                                    <button type="button" mat-icon-button matSuffix (click)="hideLoginPassword = !hideLoginPassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                                        <mat-icon>{{hideLoginPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+                                    </button>
+                                </mat-form-field>
+                                <span *ngIf="loginError" class="error d-block">Correo o contraseña incorrectos</span>
+                                <a class="primary d-block" (click)="recoverPassword()">Olvidé mi contraseña</a>
+                            </div>
+                            <div class='modal-buttons'>
+                                <loading-button [label]="'Iniciar sesión'" [loading]="loggingIn"></loading-button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="tab-pane fade" id="nav-signup" role="tabpanel" aria-labelledby="nav-signup-tab">
+                        <form (ngSubmit)="signup()" ngNativeValidate>
+                            <div class='modal-message tab-last'>
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Nombre</mat-label>
+                                    <input type="text" name="name" [(ngModel)]="user.name" required matInput>
+                                </mat-form-field>
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Teléfono</mat-label>
+                                    <input type="tel" name="phone" [(ngModel)]="user.phone" required matInput>
+                                </mat-form-field>
+                                <mat-form-field appearance="outline" [ngClass]="{'input-error': existingEmail}">
+                                    <mat-label>Correo electrónico</mat-label>
+                                    <input type="email" [(ngModel)]="user.email" (input)="existingEmail = false" name="email" required matInput>
+                                </mat-form-field>
+                                <span class="input-error" *ngIf="existingEmail">Ya existe una cuenta con ese correo</span>
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Contraseña</mat-label>
+                                    <input [type]="hideSignupPassword ? 'password' : 'text'" [(ngModel)]="user.password" name="password" required matInput>
+                                    <button type="button" mat-icon-button matSuffix (click)="hideSignupPassword = !hideSignupPassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                                        <mat-icon>{{hideSignupPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+                                    </button>
+                                </mat-form-field>
+                                <mat-form-field appearance="outline" [ngClass]="{'input-error': verificationError}">
+                                    <mat-label>Vuelve a escribir la contraseña</mat-label>
+                                    <input [type]="hideVerificationPassword ? 'password' : 'text'" name="passwordVerification" [(ngModel)]="passwordVerification" (input)="verifyPass()" required matInput>
+                                    <button type="button" mat-icon-button matSuffix (click)="hideVerificationPassword = !hideVerificationPassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                                        <mat-icon>{{hideVerificationPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+                                    </button>
+                                </mat-form-field>
+                                <span class="input-error" *ngIf="verificationError">Las contraseñas no coinciden</span>
+                            </div>
+                            <div class='modal-buttons'>
+                                <loading-button [label]="'Crear mi cuenta'" [loading]="signingUp"></loading-button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-modal
+    [name]="'verify'"
+    [showButton]="false"
+    [static]="false"
+    [header]="'Verificación necesaria'"
+    [body]="['Para comenzar a usar tu cuenta, sigue las instrucciones que enviamos a tu correo electrónico.']"
+    (open)="openVerify = $event">
+</app-modal>
+
+<app-modal
+    [name]="'verifySended'"
+    [showButton]="false"
+    [static]="false"
+    [header]="'Correo enviado'"
+    [body]="['Hemos enviado las instrucciones a tu correo electrónico para verificar tu cuenta.']"
+    (open)="openSended = $event">
+</app-modal>
+
+<app-modal
+    [name]="'error'"
+    [showButton]="false"
+    [header]="'Ha ocurrido un error'"
+    [body]="['Si continua viendo este error, por favor contáctenos.']"
+    (open)="openError = $event"
+    (response)="reload()">
+</app-modal>
+
+<button #openSendVerification data-bs-toggle='modal' data-bs-target='#unverifiedAccount' hidden></button>
+<div #sendVerificationModal class='modal fade' id='unverifiedAccount' tabindex='-1' aria-labelledby='unverifiedAccountLabel' aria-hidden='true'>
+    <div class='modal-dialog modal-dialog-centered'>
+        <div class='modal-content'>
+            <div class='modal-body'>
+                <h5 class='modal-title' id='unverifiedAccountLabel'>Tu cuenta no ha sido verificada</h5>
+                <button #closeSendVerification type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close' hidden></button>
+                <div class="line"></div>
+                <div class='modal-message'>
+                    <p>Sigue las instrucciones que hemos enviado a tu correo para verificar tu cuenta.</p>
+                </div>
+                <div class='modal-buttons'>
+                    <loading-button [label]="'Enviar de nuevo'" [loading]="sendingVerification" [class]="'bordered'" (clicked)="sendVerification()"></loading-button>
+                    <button class="primary" data-bs-dismiss='modal'>Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<button #openRecover data-bs-toggle='modal' data-bs-target='#recoverPassword' hidden></button>
+<div #recoverModal class='modal fade' id='recoverPassword' tabindex='-1' aria-labelledby='recoverPasswordLabel' aria-hidden='true'>
+    <div class='modal-dialog modal-dialog-centered'>
+        <div class='modal-content'>
+            <div class='modal-body'>
+                <h5 class='modal-title' id='recoverPasswordLabel'>Recuperar contraseña</h5>
+                <button #closeRecover type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close' hidden></button>
+                <div class="line"></div>
+                <p class="modal-message">Te enviaremos un correo para restablecer tu contraseña.</p>
+                <form (ngSubmit)="reset()" ngNativeValidate>
+                    <mat-form-field appearance="outline" [ngClass]="{'input-error': existingEmail}">
+                        <mat-label>Correo electrónico</mat-label>
+                        <input type="email" [(ngModel)]="user.email" name="email" required matInput>
+                    </mat-form-field>
+                    <div class="d-flex justify-content-evenly">
+                        <button class="bordered" data-bs-dismiss="modal">Cancelar</button>
+                        <loading-button [label]="'Enviar correo'" [loading]="sendingMail"></loading-button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-modal
+    [name]="'recoverSended'"
+    [showButton]="false"
+    [times]="false"
+    [header]="'Correo enviado'"
+    [body]="['Sigue las instrucciones que enviamos a tu correo para restablecer tu contraseña']"
+    (open)="openRecoverSuccess = $event"
+    (response)="reload()">
+</app-modal>

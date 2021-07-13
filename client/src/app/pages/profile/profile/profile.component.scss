@@ -1,0 +1,35 @@
+@import "../../../../assets/scss/base.scss";
+@import "../../../../assets/scss/helpers.scss";
+@import "../../../../assets/scss/components.scss";
+
+.profile {
+
+    .benefits-list {
+        display: flex;
+        flex-direction: column;
+        padding: 15px 30px;
+        @include media(xs) {
+            padding: 15px 0;
+        }
+        
+        div {
+            display: flex;
+            align-items: center;
+            padding: 10px 0;
+            border-radius: 5px;
+            &:nth-child(odd) {
+                background: $color-accent;
+            }
+            object {
+                margin: 0 10px;
+                width: 20px;
+            }
+            span {
+                margin-top: 1px;
+            }
+        }
+    }
+    .cta {
+        font-size: 0.8rem;
+    }
+}

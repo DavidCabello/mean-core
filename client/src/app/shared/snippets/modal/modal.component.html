@@ -1,0 +1,19 @@
+<button #openButton type='button' class='{{buttonClass}}' data-bs-toggle='modal' [attr.data-bs-target]='"#_" + name' [hidden]="!showButton">
+    {{buttonLabel}}
+</button>
+<div #modal class='modal fade' [ngClass]="{'overlapped': overlapped}" id='_{{name}}' tabindex='-1' [attr.aria-labelledby]='"_" + name + "Label"' aria-hidden='true'>
+    <div class='modal-dialog' [ngClass]="{'modal-dialog-centered': centered, 'modal-sm': size == 'small', 'modal-lg': size == 'large'}">
+        <div class='modal-content'>
+            <div class='modal-body'>
+                <h5 class='modal-title' id='_{{name}}Label'>{{header}}</h5>
+                <div class="line"></div>
+                <button #closeButton type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close' [hidden]="!times"></button>
+                <p class="modal-message" *ngFor="let line of body">{{line}}</p>
+                <div class="modal-buttons">
+                    <button *ngIf="confirmation" [class]="cancelButtonClass" (click)="emit(false)">{{cancelButtonLabel}}</button>
+                    <button [class]="acceptButtonClass" (click)="emit(true)">{{acceptButtonLabel}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

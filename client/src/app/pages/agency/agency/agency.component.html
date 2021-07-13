@@ -1,0 +1,355 @@
+<app-header></app-header>
+
+<main *ngIf="!user?.agency_id" class="agency page">
+    <div class="page-header">
+        <h5>Mi inmobiliaria</h5>
+        <div *ngIf="loading" class="spinner-border"></div>
+    </div>
+    <div class="page-area no-agency">
+        <img src='assets/icons/seller.svg'>
+        <h6>Aún no formas parte de ninguna inmobiliaria</h6>
+        <button type='button' class='primary' data-bs-toggle='modal' data-bs-target='#newAgency' [disabled]="loading">
+            Crear mi inmobiliaria
+        </button>
+    </div>
+</main>
+
+<main *ngIf="user?.agency_id" class="agency page">
+    <div class="page-header">
+        <h5>Mi inmobiliaria</h5>
+        <div *ngIf="loading" class="spinner-border"></div>
+    </div>
+    <div class="page-area area-m2 agency-header">
+        <div class="agency-info">
+            <div class="agency-logo">
+                <input-logo [url]="agency.logo_url" [editable]="userRole.agency_info" (uploaded)="saveLogo($event)"></input-logo>
+            </div>
+            <div *ngIf="!userRole.agency_info" class="agency-name">
+                <p>{{agency.name}}</p>
+            </div>
+            <div *ngIf="userRole.agency_info" class="agency-name">
+                <p *ngIf="!editName">{{agency.name}}</p>
+                <input *ngIf="editName" type="text" name="agencyname" [ngClass]="{'input-edit': editName}" [(ngModel)]="agency.name">
+                <button *ngIf="!editName" class="icon-button ms-2 edit-icon" (click)="editName = true"><img src='assets/icons/edit.svg' class="icon-15"></button>
+                <button *ngIf="editName" class="icon-button ms-2" (click)="saveName()"><img src='assets/icons/check-square.svg' class="icon-15"></button>
+            </div>
+        </div>
+        <div class="agency-navigation">
+            <button *ngIf="userRole.agency_activity" class="bordered" [ngClass]="{'me-3': userRole.agency_stats}">Actividad</button>
+            <button *ngIf="userRole.agency_stats" class="bordered">Estadísticas</button>
+        </div>
+    </div>
+    <div *ngIf="pending.length > 0 && userRole.invite_agent" class="page-area area-white">
+        <h6 class="area-header">Invitaciones pendientes</h6>
+        <table class="custom-table w-100">
+            <thead>
+                <tr>
+                    <th>Correo electrónico</th>
+                    <th>Permisos</th>
+                    <th>Cancelar</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let invitation of pending">
+                    <td>{{invitation.email}}</td>
+                    <td>{{roles[invitation.permissions_id]}}</td>
+                    <td><button class="icon-button" (click)="cancelInvitation(invitation)"><img src='assets/icons/trash.svg'></button></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="table-card accordion-item" *ngFor="let invitation of pending">
+            <div class="table-card-content" data-bs-toggle="collapse" [attr.data-bs-target]="'#_' + invitation._id">
+                <div class="card-row">
+                    <div class="chip">Correo electrónico</div>
+                    <span class="card-field">{{invitation.email}}</span>
+                </div>
+                <div class="card-row">
+                    <div class="chip">Permisos</div>
+                    <span class="card-field">{{roles[invitation.permissions_id]}}</span>
+                </div>
+            </div>
+            <div [id]="'_' + invitation._id" class="accordion-collapse collapse">
+                <div class="card-actions">
+                    <button class="icon-button" (click)="cancelInvitation(invitation)"><img src='assets/icons/trash.svg'></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="page-area area-white">
+        <h6 class="area-header">Agentes</h6>
+        <div class="agents-actions">
+            <input type="text" name="filter" class="filter-input" placeholder="Buscar..." (input)="filter($event)">
+            <div class="area-buttons">
+                <button *ngIf="userRole.manage_roles" type='button' class='bordered' [ngClass]="{'me-3': userRole.invite_agent}" data-bs-toggle='modal' data-bs-target='#permissionsManager'>
+                    Roles y permisos
+                </button>
+                <button *ngIf="userRole.invite_agent" type='button' class='primary' data-bs-toggle='modal' data-bs-target='#inviteAgent'>
+                    Invitar agente
+                </button>
+            </div>
+        </div>
+        <table class="custom-table w-100">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Correo electrónico</th>
+                    <th>Teléfono</th>
+                    <th>Permisos</th>
+                    <th>Cuenta</th>
+                    <th *ngIf="userRole.remove_agent">Eliminar</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let user of filteredAgentList">
+                    <td>{{user.name}}</td>
+                    <td>{{user.email}}</td>
+                    <td><a href="tel:{{user.phone}}">{{user.phone}}</a></td>
+                    <td>
+                        <div class="field-edit">
+                            <span>{{roles[user.permissions_id]}}</span>
+                            <img *ngIf="userRole.manage_roles" (click)="editUserRole(user)" src='assets/icons/edit.svg'>
+                        </div>
+                    </td>
+                    <td>
+                        <span *ngIf="!user.pro">FREE</span>
+                        <span *ngIf="user.pro" class="pro-badge">PRO</span>
+                    </td>
+                    <td *ngIf="userRole.remove_agent"><button class="icon-button" (click)="deleteAgent(user)"><img src='assets/icons/trash.svg'></button></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="table-card accordion-item mb-3" *ngFor="let user of filteredAgentList">
+            <div class="table-card-content" data-bs-toggle="collapse" [attr.data-bs-target]="'#_' + user._id">
+                <div class="card-row">
+                    <div class="chip">Nombre</div>
+                    <span class="card-field">{{user.name}}</span>
+                </div>
+                <div class="card-row">
+                    <div class="chip">Correo electrónico</div>
+                    <span class="card-field">{{user.email}}</span>
+                </div>
+                <div class="card-row">
+                    <div class="chip">Teléfono</div>
+                    <span class="card-field"><a href="tel:{{user.phone}}">{{user.phone}}</a></span>
+                </div>
+                <div class="card-row">
+                    <div class="chip">Permisos</div>
+                    <span class="card-field">
+                        {{roles[user.permissions_id]}}
+                        <img *ngIf="userRole.manage_roles" class="icon-20" (click)="editUserRole(user)" src='assets/icons/edit.svg'>
+                    </span>
+                </div>
+                <div class="card-row">
+                    <div class="chip">Cuenta</div>
+                    <span class="card-field">
+                        <span *ngIf="!user.pro">FREE</span>
+                        <span *ngIf="user.pro" class="pro-badge">PRO</span>
+                    </span>
+                </div>
+            </div>
+            <div *ngIf="userRole.remove_agent" [id]="'_' + user._id" class="accordion-collapse collapse">
+                <div class="card-actions">
+                    <button class="icon-button" (click)="deleteAgent(user)"><img src='assets/icons/trash.svg'></button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+
+<div *ngIf="!user.agency_id" class='modal fade secondary' id='newAgency' tabindex='-1' aria-labelledby='newAgencyLabel' aria-hidden='true'>
+    <div class='modal-dialog modal-dialog-centered'>
+        <div class='modal-content'>
+            <div class='modal-body'>
+                <h5 class='modal-title' id='newAgencyLabel'>Crear mi inmobiliaria</h5>
+                <form (ngSubmit)="createAgency()" ngNativeValidate>
+                    <div class='modal-message'>
+                        <mat-form-field appearance="outline">
+                            <mat-label>Nombre</mat-label>
+                            <input type="text" name="na-name" [(ngModel)]="agency.name" required matInput>
+                        </mat-form-field>
+                        <div class="agency-logo m-auto mt-2">
+                            <input-logo [url]="agency.logo_url" (uploaded)="agency.logo_url = $event"></input-logo>
+                        </div>
+                    </div>
+                    <div class='modal-buttons'>
+                        <button #closeNewAgency class="bordered" data-bs-dismiss="modal">Cancelar</button>
+                        <loading-button [label]="'Crear inmobiliaria'" [loading]="building"></loading-button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="userRole.invite_agent" class='modal fade secondary' id='inviteAgent' tabindex='-1' aria-labelledby='inviteAgentLabel' aria-hidden='true'>
+    <div class='modal-dialog modal-dialog-centered'>
+        <div class='modal-content'>
+            <div class='modal-body'>
+                <h5 class='modal-title' id='inviteAgentLabel'>Invitar agente</h5>
+                <form (ngSubmit)="sendInvitation()" ngNativeValidate>
+                    <div class='modal-message'>
+                        <p>Le enviaremos una invitación por correo</p>
+                        <mat-form-field appearance="outline">
+                            <mat-label>Correo electrónico</mat-label>
+                            <input type="email" name="invite-email" [(ngModel)]="invitation.email" required matInput>
+                        </mat-form-field>
+                        <select class="form-select" name="invite-role" [(ngModel)]="invitation.permissions_id">
+                            <option value="null" disabled>Permisos</option>
+                            <option *ngFor="let role of roles | keyvalue" [ngValue]="role.key">
+                                {{role.value}}
+                            </option>
+                        </select>
+                    </div>
+                    <div class='modal-buttons'>
+                        <button #closeSendInvitation type="button" class="bordered" data-bs-dismiss="modal">Cancelar</button>
+                        <loading-button [label]="'Enviar'" [loading]="sendingInvitation"></loading-button>
+                    </div>
+                </form>                
+            </div>
+        </div>
+    </div>
+</div>
+
+<button #openEditUserRole data-bs-toggle='modal' data-bs-target='#editUserRoleModal' hidden></button>
+<div *ngIf="userRole.manage_roles" class='modal fade secondary' id='editUserRoleModal' tabindex='-1' aria-labelledby='editUserRoleModalLabel' aria-hidden='true'>
+    <div class='modal-dialog modal-dialog-centered'>
+        <div class='modal-content'>
+            <div class='modal-body'>
+                <h5 class='modal-title' id='editUserRoleModalLabel'>Cambiar permisos</h5>
+                <form (ngSubmit)="updateAgent()" ngNativeValidate>
+                    <div class='modal-message'>
+                        <p>Elige el rol para <span class="bold">{{selectedAgent.name | name}}</span></p>
+                        <select class="form-select" name="invite-role" [(ngModel)]="selectedAgent.permissions_id" (change)="updateAdminCount()" [disabled]="selectedAgent.permissions_id == adminRole && adminCount == 1">
+                            <option value="null" disabled>Permisos</option>
+                            <option *ngFor="let role of roles | keyvalue" [ngValue]="role.key">
+                                {{role.value}}
+                            </option>
+                        </select>
+                    </div>
+                    <div class='modal-buttons'>
+                        <button #closeEditUserRole type="button" class="bordered" data-bs-dismiss="modal">Cancelar</button>
+                        <loading-button [label]="'Guardar'" [loading]="updatingAgent"></loading-button>
+                    </div>
+                </form>    
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="userRole.manage_roles" class='modal fade secondary' id='permissionsManager' tabindex='-1' aria-labelledby='permissionsManagerLabel' aria-hidden='true'>
+    <div class='modal-dialog modal-dialog-centered modal-lg'>
+        <div class='modal-content'>
+            <div class='modal-body'>
+                <h5 class='modal-title' id='permissionsManagerLabel'>Administrar permisos</h5>
+                <div class='modal-message'>
+                    <div class='row'>
+                        <div class='col col-md-5 col-12 d-flex flex-column'>
+                            <p class="bold content-header">Roles guardados</p>
+                            <div class="role-container">
+                                <div class="role-list">
+                                    <div class="role-list-element" [ngClass]="{'selected': selectedRole._id == role._id}" *ngFor="let role of agencyPermissions" (click)="selectedRole = role">
+                                        <span>{{role.name}}</span>
+                                        <button *ngIf="!role.default" class="icon-button" (click)="deleteRole(role)"><img src='assets/icons/times.svg'></button>
+                                    </div>
+                                </div>
+                                <form class="role-form" [ngClass]="{'input-error': newRoleError}" (ngSubmit)="createRole()" ngNativeValidate>
+                                    <input type="text" name="newrole" class="role-input" [(ngModel)]="newRole.name" (input)="newRoleError = false" required>
+                                    <button class="icon-button"><img src='assets/icons/plus.svg'></button>
+                                </form>
+                                <span *ngIf="newRoleError" class="input-error ps-4">Ya existe un rol con ese nombre</span>
+                            </div>
+                        </div>
+                        <div class='col col-md-7 col-12 d-flex flex-column'>
+                            <p class="bold content-header">Permisos</p>
+                            <div class="role-container p-3">
+                                <div *ngIf="!selectedRole._id" class="no-role">
+                                    <p>Selecciona un rol para ver sus permisos</p>
+                                </div>
+                                <div *ngIf="selectedRole._id" class="permissions-list">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="createproperty" [(ngModel)]="selectedRole.create_property">
+                                        <label class="form-check-label" for="createproperty">Crear nuevos inmuebles</label>
+                                    </div>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="editproperties" [(ngModel)]="selectedRole.edit_properties">
+                                        <label class="form-check-label" for="editproperties">Editar propiedades de otros agentes</label>
+                                    </div>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="deleteproperties" [(ngModel)]="selectedRole.delete_properties">
+                                        <label class="form-check-label" for="deleteproperties">Eliminar propiedades de otros agentes</label>
+                                    </div>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="inviteagent" [(ngModel)]="selectedRole.invite_agent">
+                                        <label class="form-check-label" for="inviteagent">Invitar nuevos agentes</label>
+                                    </div>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="deleteagent" [(ngModel)]="selectedRole.remove_agent">
+                                        <label class="form-check-label" for="deleteagent">Eliminar agentes</label>
+                                    </div>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="manageroles" [(ngModel)]="selectedRole.manage_roles" [disabled]="selectedRole.name == 'Admin'">
+                                        <label class="form-check-label" for="manageroles">Administrar roles y permisos</label>
+                                    </div>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="agencystats" [(ngModel)]="selectedRole.agency_stats">
+                                        <label class="form-check-label" for="agencystats">Ver estadísticas de la inmobiliaria</label>
+                                    </div>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="agencyactivity" [(ngModel)]="selectedRole.agency_activity">
+                                        <label class="form-check-label" for="agencyactivity">Ver actividad de la inmobiliaria</label>
+                                    </div>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="agencyinfo" [(ngModel)]="selectedRole.agency_info">
+                                        <label class="form-check-label" for="agencyinfo">Cambiar logo y nombre de la inmobiliaria</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class='modal-buttons'>
+                    <button #closeRoles class="bordered" data-bs-dismiss='modal'>Cerrar</button>
+                    <loading-button [label]="'Guardar'" [loading]="savingRoles" (clicked)="saveRoles()"></loading-button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-modal *ngIf="userRole.invite_agent"
+    [name]="'confirmCancel'"
+    [confirmation]="true"
+    [showButton]="false"
+    [static]="false"
+    [header]="'Cancelar invitación'"
+    [body]="['¿Estás seguro que quieres cancelar esta invitación?']"
+    (response)="handleCancel($event)"
+    (open)="openConfirmCancel = $event">
+</app-modal>
+<app-modal *ngIf="userRole.remove_agent"
+    [name]="'confirmRemove'"
+    [confirmation]="true"
+    [showButton]="false"
+    [static]="false"
+    [header]="'Eliminar agente'"
+    [body]="['¿Estás seguro que quieres eliminar a este agente de la inmobiliaria?']"
+    (response)="handleRemove($event)"
+    (open)="openConfirmRemove = $event">
+</app-modal>
+<app-modal *ngIf="userRole.manage_roles"
+    [name]="'confirmDeleteRole'"
+    [confirmation]="true"
+    [showButton]="false"
+    [static]="false"
+    [overlapped]="true"
+    [header]="'Eliminar rol'"
+    [body]="['¿Estás seguro que quieres eliminar a este rol?']"
+    (response)="handleDeleteRole($event)"
+    (open)="openConfirmDeleteRole = $event">
+</app-modal>
+
+<app-footer></app-footer>

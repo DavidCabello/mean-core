@@ -1,0 +1,104 @@
+@import "../../../../assets/scss/base.scss";
+@import "../../../../assets/scss/helpers.scss";
+@import "../../../../assets/scss/components.scss";
+
+.task-list {
+    max-height: 350px;
+    overflow-y: auto;
+    padding-top: 5px;
+    
+    .task-container {
+        background: #FAFAFA;
+        border-radius: 10px;
+        box-shadow: $shadow;
+        display: flex;
+        flex-direction: column;
+        padding: 10px;
+        padding-bottom: 0;
+        margin: 0 5px 10px;
+
+        &:last-child {
+            
+        }
+        .task-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+
+            .task-title {
+                margin-bottom: 0;
+            }
+            .task-options {
+                display: flex;
+                align-items: center;
+
+                .task-date {
+                    margin-left: 10px;
+
+                    &.expired {
+                        background: #F0E4E4;
+                        span {
+                            color: #761F1F;
+                        }
+                    }
+                    img {
+                        width: 13px;
+                        margin-left: -5px;
+                    }
+                    span {
+                        white-space: nowrap;
+                        font-size: 13px
+                    }
+                }
+                .icon-button {
+
+                    img {
+
+                    }
+                }
+            }
+        }
+        .task-description {
+
+            p {
+                margin-bottom: 0.5rem;
+                font-size: 0.9rem;
+            }
+        }
+        .task-assignment {
+            margin-bottom: 0.5rem;
+
+            .chip {
+                &:first-child {
+                    margin-right: 5px;
+                }
+            }
+        }
+        .task-actions {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+
+            .chip {
+                margin-bottom: 10px;
+            }
+            .state-buttons {
+                display: flex;
+                justify-content: flex-end;
+                margin-bottom: 10px;
+
+                button {
+                    &:first-child {
+                        margin-right: 5px;
+                    }
+                    padding: 5px 15px;
+                    border-radius: 17px;
+                    &.primary {
+                        border: 1px solid;
+                    }
+                }
+            }
+        }
+    }
+}

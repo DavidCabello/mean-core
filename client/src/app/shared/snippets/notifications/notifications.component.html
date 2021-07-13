@@ -1,0 +1,178 @@
+<button class="icon-button bell" (click)="toggle()">
+    <img class="bell-icon" src='assets/icons/bell.svg'>
+    <img class="badge" src='assets/icons/dot.svg'>
+</button>
+
+<!-- <div #background class="notification-background">
+</div> -->
+<div #base class="notifications" id="notification-section" (click)="inside = true">
+    <div class="notifications-header">
+        <button class="icon-button resBlock" (click)="close()">
+            <img src='assets/icons/angle-left.svg'>
+        </button>
+        <p>Notificaciones</p>
+    </div>
+    <div class="notifications-body">
+        <div *ngIf="notificationList.length == 0" class="notifications-empty">
+            <img src='assets/icons/empty.svg'>
+            <p>No hay ninguna notificación.</p>
+        </div>
+    </div>
+    <div class="notifications-footer">
+        <button type='button' class='bordered' data-bs-toggle='modal' data-bs-target='#notificationsSettings' (click)="close()">
+            Configuración
+        </button>
+    </div>
+</div>
+
+<div #settings class='modal fade secondary' id='notificationsSettings' tabindex='-1' aria-labelledby='notificationsSettingsLabel' aria-hidden='true'>
+    <div class='modal-dialog modal-dialog-centered'>
+        <div class='modal-content'>
+            <div class='modal-body'>
+                <h5 class='modal-title ' id='notificationsSettingsLabel'>
+                    <img src='assets/icons/cog.svg'>
+                    <span>Configuración de notificaciones</span>
+                </h5>
+                <nav>
+                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                        <button class="nav-link active" id="nav-properties-tab" data-bs-toggle="tab" data-bs-target="#nav-properties" type="button" role="tab" aria-controls="nav-properties" aria-selected="true">Mis inmuebles</button>
+                        <button class="nav-link" id="nav-agency-tab" data-bs-toggle="tab" data-bs-target="#nav-agency" type="button" role="tab" aria-controls="nav-agency" aria-selected="false">Inmobiliaria</button>
+                        <button class="nav-link" id="nav-clients-tab" data-bs-toggle="tab" data-bs-target="#nav-clients" type="button" role="tab" aria-controls="nav-clients" aria-selected="false">Clientes</button>
+                    </div>
+                </nav>
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="tab-pane fade show active" id="nav-properties" role="tabpanel" aria-labelledby="nav-properties-tab">
+                            <div class='modal-message tab-first'>
+                                <p>Interacción de tus inmuebles</p>
+                                <table class="w-100">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th class="px-2">Notificaciones</th>
+                                            <th class="px-2">Correo electrónico</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Visto</td>
+                                            <td class="px-2">
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input" type="checkbox">
+                                                </div>
+                                            </td>
+                                            <td class="px-2">
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input" type="checkbox">
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Compartido</td>
+                                            <td class="px-2">
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input" type="checkbox">
+                                                </div>
+                                            </td>
+                                            <td class="px-2">
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input" type="checkbox">
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Reportado</td>
+                                            <td class="px-2">
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input" type="checkbox">
+                                                </div>
+                                            </td>
+                                            <td class="px-2">
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input" type="checkbox">
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Guardado</td>
+                                            <td class="px-2">
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input" type="checkbox">
+                                                </div>
+                                            </td>
+                                            <td class="px-2">
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input" type="checkbox">
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                    </div>
+                    <div class="tab-pane fade" id="nav-agency" role="tabpanel" aria-labelledby="nav-agency-tab">
+                        <p>Inmobiliaria</p>
+                    </div>
+                    <div class="tab-pane fade" id="nav-clients" role="tabpanel" aria-labelledby="nav-clients-tab">
+                        <div class='modal-message tab-first'>
+                            <p>Propiedades compartidas</p>
+                            <table class="w-100">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th class="px-2">Notificaciones</th>
+                                        <th class="px-2">Correo electrónico</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Enlace abierto</td>
+                                        <td class="px-2">
+                                            <div class="form-check form-switch">
+                                                <input class="form-check-input" type="checkbox">
+                                            </div>
+                                        </td>
+                                        <td class="px-2">
+                                            <div class="form-check form-switch">
+                                                <input class="form-check-input" type="checkbox">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Le gustó</td>
+                                        <td class="px-2">
+                                            <div class="form-check form-switch">
+                                                <input class="form-check-input" type="checkbox">
+                                            </div>
+                                        </td>
+                                        <td class="px-2">
+                                            <div class="form-check form-switch">
+                                                <input class="form-check-input" type="checkbox">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>No le gustó</td>
+                                        <td class="px-2">
+                                            <div class="form-check form-switch">
+                                                <input class="form-check-input" type="checkbox">
+                                            </div>
+                                        </td>
+                                        <td class="px-2">
+                                            <div class="form-check form-switch">
+                                                <input class="form-check-input" type="checkbox">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class='modal-buttons'>
+                    <button #closeSettings class="bordered" data-bs-dismiss='modal'>Cancelar</button>
+                    <loading-button [label]="'Guardar'" [loading]="updating"></loading-button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
